@@ -20,9 +20,19 @@ export default {
   -webkit-tap-highlight-color: transparent;
 }
 
+ul {
+  list-style: none;
+}
+
 html,
 body {
   height: 100%;
+}
+
+.content-hv-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #app {
@@ -33,6 +43,14 @@ body {
   height: 100%;
   color: #2c3e50;
   background: #fff;
+  overflow: hidden;
+  font-size: 1.5em;
+  .page:extend(.v-flex) {
+    height: 100%;
+    .content {
+      flex: 1;
+    }
+  }
 }
 
 #app.dark {
@@ -56,5 +74,37 @@ body {
   &:active {
     transform: translateY(.1em);
   }
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  .button {
+    margin: 1em;
+    flex: 1;
+  }
+}
+
+.card:extend(.v-flex) {
+  background-color: #3b3b3b;
+  border-radius: .3em;
+  padding: .5em;
+  .title {
+    font-size: 1.2em;
+    margin-bottom: .5em;
+  }
+  .body {
+    overflow: auto;
+    flex: 1;
+  }
+}
+
+.v-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.msg {
+  color: #999;
 }
 </style>

@@ -1,22 +1,28 @@
 <template>
-  <div class="home-page">
-    <h1>史上最变态的形近英文单词测试</h1>
-    <router-link to="/quiz" class="button">Go</router-link>
+<div class="page">
+  <h1 class="content content-hv-center">Twin<br/>Words</h1>
+  <div class="footer">
+    <router-link to="/quiz"
+                 class="button">Go ›</router-link>
   </div>
+</div>
+
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+  name: 'HomePage',
+  data() {
+    return {}
   },
   methods: {
   }
 }
+
 </script>
 
-<style scoped>
+<style scoped="" lang="less">
+h1 {
+  font-size: 3.5em;
+}
 </style>

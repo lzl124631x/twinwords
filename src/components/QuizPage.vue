@@ -1,13 +1,15 @@
 <template>
-<div class="quiz-page">
+<div class="page"
+     v-if="quizzes">
   <div class="header">
     <ul class="lives">
       <li v-for="life in maxLives"
-          class="life" v-bind:class="{ off: life > lives }">❤</li>
+          class="life"
+          v-bind:class="{ off: life > lives }">❤</li>
     </ul>
   </div>
-  <div class="quiz">{{ curQuiz.q }}</div>
-  <ul class="options"
+  <div class="quiz content conteng-hv-center">{{ curQuiz.q }}</div>
+  <ul class="options footer"
       v-bind:class="{ taken: chosen != '' }">
     <li v-for="option in curQuiz.options"
         v-on:click="next(option)"
@@ -17,48 +19,20 @@
     </li>
   </ul>
 </div>
+<div class="page content-hv-center"
+     v-else>
+  <div class="msg">LOADING</div>
+</div>
 
 </template>
 
 <script>
+import service from '../service';
 export default {
   name: 'QuizPage',
   data() {
     return {
-      quizzes: [
-        {
-          q: '狗',
-          options: [
-            'dog',
-            'fog'
-          ],
-          key: 'dog'
-        },
-        {
-          q: '猪',
-          options: [
-            'pig',
-            'jig'
-          ],
-          key: 'pig'
-        },
-        {
-          q: '猫',
-          options: [
-            'cat',
-            'kite'
-          ],
-          key: 'cat'
-        },
-        {
-          q: '兔',
-          options: [
-            'rabbit',
-            'reddit'
-          ],
-          key: 'rabbit'
-        }
-      ],
+      quizzes: null,
       curQuizIndex: 0,
       maxLives: 3,
       lives: 3,
@@ -67,8 +41,16 @@ export default {
   },
   computed: {
     curQuiz() {
+      if (!this.quizzes) {
+        return null
+      }
       return this.quizzes[this.curQuizIndex]
     }
+  },
+  mounted() {
+    store.reset()
+    var self = this
+    service.getQuizzes().then(quizzes => self.quizzes = quizzes)
   },
   methods: {
     next(option) {
@@ -77,6 +59,7 @@ export default {
       if (wrong) {
         this.lives--
       }
+      store.pushHistory(this.curQuiz.q, this.curQuiz.key, !wrong)
       setTimeout(() => {
         this.chosen = ''
         if ((wrong && this.lives === 0)
@@ -87,8 +70,7 @@ export default {
         } else {
           this.curQuizIndex++
         }
-      }, 800)
-
+      }, 500)
     }
   }
 }
@@ -109,7 +91,6 @@ ul {
       color: #f05458;
       font-size: 1.3em;
       margin: .3em;
-
       &.off {
         color: #333;
       }
@@ -118,12 +99,13 @@ ul {
 }
 
 .quiz {
-  padding: 1em;
-  font-size: 2em;
+  padding: 2em 1em 1em;
+  font-size: 3em;
   font-weight: bold;
 }
 
-.options {
+.options.footer {
+  display: block;
   .option {
     display: block;
     margin: 1em;
