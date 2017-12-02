@@ -65,6 +65,10 @@ export default {
 
 .card {
   flex: 1;
+
+  .body {
+     -webkit-overflow-scrolling: touch;
+  }
 }
 
 .history-row {

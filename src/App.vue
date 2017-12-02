@@ -17,7 +17,6 @@ export default {
 * {
   margin: 0;
   padding: 0;
-  -webkit-tap-highlight-color: transparent;
 }
 
 ul {
@@ -27,6 +26,11 @@ ul {
 html,
 body {
   height: 100%;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
 }
 
 .content-hv-center {
