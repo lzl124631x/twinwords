@@ -66,13 +66,21 @@ body {
   cursor: pointer;
   color: #fff;
   text-decoration: none;
-  &:hover {
-    background: #fff;
-    border-color: #fff;
-    color: #000;
-  }
   &:active {
+    &:extend(.active-button);
     transform: translateY(.1em);
+  }
+}
+
+.active-button {
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+}
+
+body.has-hover {
+  .button:hover {
+    &:extend(.active-button);
   }
 }
 
