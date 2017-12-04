@@ -5,7 +5,7 @@
     <ul class="lives">
       <li v-for="life in maxLives"
           class="life"
-          v-bind:class="{ off: life > lives }">❤</li>
+          v-bind:class="{ off: life > lives }">❤&#xfe0e;</li>
     </ul>
   </div>
   <div class="quiz content conteng-hv-center">{{ curQuiz.q }}</div>
@@ -100,7 +100,7 @@ ul {
 
 .quiz {
   padding: 2em 1em 1em;
-  font-size: 3em;
+  font-size: 1.2em;
   font-weight: bold;
 }
 

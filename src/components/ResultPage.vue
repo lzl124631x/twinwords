@@ -13,10 +13,10 @@
         <ul v-if=globalState.history>
           <li v-for="entry in globalState.history"
               class="history-row">
-            <span>{{entry.zh}}</span>
-            <span>{{entry.en}}</span>
             <span class="icon"
                   v-bind:class="{ correct: entry.correct }"></span>
+            <span class="zh">{{entry.zh}}</span>
+            <span class="en">{{entry.en}}</span>
           </li>
         </ul>
         <div class="msg content-hv-center"
@@ -65,19 +65,25 @@ export default {
 
 .card {
   flex: 1;
-
   .body {
-     -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
 .history-row {
   display: flex;
+  align-items: center;
   padding: .3em 0;
-  span {
+  .zh {
+    flex: 2;
+    text-align: left;
+    font-size: .8em;
+  }
+  .en {
     flex: 1;
   }
   .icon {
+    padding-right: .5em;
     &.correct:after {
       content: '√';
       color: #81d468;

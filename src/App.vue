@@ -70,6 +70,8 @@ body {
   cursor: pointer;
   color: #fff;
   text-decoration: none;
+  transition: transform .15s ease-in-out,
+              background .15s ease-in-out;
   &:active {
     &:extend(.active-button);
     transform: translateY(.1em);
