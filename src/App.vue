@@ -7,8 +7,24 @@
 </template>
 
 <script>
+import util from './util'
+import OAuth from 'wechat-oauth'
+import service from './service'
+
 export default {
-  name: 'app'
+  name: 'app',
+  mounted() {
+    var code = util.getQuery('code')
+    if (!code) {
+      alert("Please visit from WeChat")
+      return
+    }
+    service.login(code)
+    .then(auth =>{
+      console.log(auth, auth.openid)
+       service.userinfo(auth.openid)
+    })
+  }
 }
 
 </script>
@@ -70,8 +86,7 @@ body {
   cursor: pointer;
   color: #fff;
   text-decoration: none;
-  transition: transform .15s ease-in-out,
-              background .15s ease-in-out;
+  transition: transform .15s ease-in-out, background .15s ease-in-out;
   &:active {
     &:extend(.active-button);
     transform: translateY(.1em);

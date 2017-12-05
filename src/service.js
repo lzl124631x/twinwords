@@ -1,64 +1,51 @@
-var P = require('bluebird')
-var twinWords = require('../static/twin-words.json')
-var dict = require('../static/dict.json')
+import P from 'bluebird'
+import axios from 'axios'
+import cache from './cache'
 
-var db = createTwinWordDB(twinWords)
-var dict = reformDict(dict)
+const backendUrl = 'http://localhost:3000'
+
+function get(url) {
+  return axios.get(backendUrl + url)
+    .catch(err => console.error(url, err))
+}
+
+function post(url, params) {
+  return axios.post(backendUrl + url, params)
+  // .catch(err => console.error(url, err)) // Axios `catch` changed the promise: https://github.com/axios/axios/issues/1216
+}
 
 export default {
   getQuizzes() {
-    var twins = reservoirSampling(db, 20)
-    var quizzes = generateQuizzes(twins, dict)
-    return P.resolve(quizzes)
-  }
-}
-
-function createTwinWordDB(twinWords) {
-  var db = []
-  for (var word in twinWords) {
-    twinWords[word].forEach(neighbor => db.push([word, neighbor]))
-  }
-  return db
-}
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
-
-function reservoirSampling(db, count) {
-  count = Math.min(db.length, count)
-  if (count === db.length) return db
-  var twins = []
-  db.forEach((item, i) => {
-    if (i < count) {
-      twins.push(item)
-    } else {
-      var index = getRandomInt(0, i + 1)
-      if (index < count) {
-        twins[index] = item
-      }
+    return get('/quiz')
+      .then(res => res.data)
+  },
+  login(code) {
+    var auth = cache.getJSON(code)
+    if (auth) {
+      console.log('login info recovered: ', auth)
+      return P.resolve(auth.data)
     }
-  })
-  return twins
-}
-
-function reformDict(dict) {
-  var d = {}
-  dict.forEach(item => d[item.en] = item.cn)
-  return d
-}
-
-function generateQuizzes(twins, dict) {
-  return twins.map(twin => {
-    var index = getRandomInt(0, 2)
-    var key = twin[index]
-    var q = dict[key]
-    return {
-      q: q,
-      options: twin,
-      key: key
-    }
-  })
+    return new P((resolve, reject) =>
+      post('/login', {
+        code: code
+      })
+      .then(res => {
+        console.log('then', res)
+        cache.setJSON(code, res.data)
+        resolve(res.data)
+      })
+      .catch(err => {
+        console.error('login', err)
+        reject()
+      }))
+  },
+  userinfo(openid) {
+    return post('/userinfo', {
+        openid: openid
+      })
+      .then(res => {
+        console.log('userinfo', res)
+      })
+      .catch(err => console.error('userinfo', err))
+  }
 }
