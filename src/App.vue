@@ -8,7 +8,6 @@
 
 <script>
 import util from './util'
-import OAuth from 'wechat-oauth'
 import service from './service'
 
 export default {
@@ -16,14 +15,14 @@ export default {
   mounted() {
     var code = util.getQuery('code')
     if (!code) {
-      alert("Please visit from WeChat")
+      alert('Please visit from WeChat')
       return
     }
     service.login(code)
-    .then(auth =>{
-      console.log(auth, auth.openid)
-       service.userinfo(auth.openid)
-    })
+      .then(auth => {
+        debug.log(auth, auth.openid)
+        service.userinfo(auth.openid)
+      })
   }
 }
 

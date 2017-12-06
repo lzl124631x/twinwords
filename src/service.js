@@ -22,7 +22,7 @@ export default {
   login(code) {
     var auth = cache.getJSON(code)
     if (auth) {
-      console.log('login info recovered: ', auth)
+      debug.log('login info recovered: ', auth)
       return P.resolve(auth.data)
     }
     return new P((resolve, reject) =>
@@ -30,12 +30,12 @@ export default {
         code: code
       })
       .then(res => {
-        console.log('then', res)
+        debug.log('then', res)
         cache.setJSON(code, res.data)
         resolve(res.data)
       })
       .catch(err => {
-        console.error('login', err)
+        debug.error('login', err)
         reject()
       }))
   },
@@ -44,8 +44,8 @@ export default {
         openid: openid
       })
       .then(res => {
-        console.log('userinfo', res)
+        debug.log('userinfo', res)
       })
-      .catch(err => console.error('userinfo', err))
+      .catch(err => debug.error('userinfo', err))
   }
 }

@@ -9,7 +9,13 @@ Vue.config.productionTip = false
 var debug = {
   debug: true,
   log() {
-    if (this.debug) console.log.apply(null, arguments)
+    if (this.debug && console.log) console.log.apply(null, arguments)
+  },
+  info() {
+    if (this.debug && console.log) console.log.apply(null, arguments)
+  },
+  error() {
+    if (this.debug && console.log) console.error.apply(null, arguments)
   }
 }
 

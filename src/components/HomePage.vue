@@ -22,7 +22,4 @@ export default {
 </script>
 
 <style scoped="" lang="less">
-h1 {
-  font-size: 3.5em;
-}
 </style>
