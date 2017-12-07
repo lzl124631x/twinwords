@@ -6,7 +6,7 @@ import router from './router'
 
 Vue.config.productionTip = false
 
-var debug = {
+window.debug = {
   debug: true,
   log() {
     if (this.debug && console.log) console.log.apply(null, arguments)
@@ -33,6 +33,8 @@ window.store = {
     this.state.history.push({ zh: zh, en: en, correct: correct })
   }
 }
+
+window.user = {}
 
 /* eslint-disable no-new */
 new Vue({

@@ -13,14 +13,8 @@ import service from './service'
 export default {
   name: 'app',
   mounted() {
-    var code = util.getQuery('code')
-    if (!code) {
-      alert('Please visit from WeChat')
-      return
-    }
-    service.login(code)
+    service.login()
       .then(auth => {
-        debug.log(auth, auth.openid)
         service.userinfo(auth.openid)
       })
   }
