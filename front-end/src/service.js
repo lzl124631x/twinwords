@@ -25,15 +25,17 @@ function wechatLogin() {
   auth = cache.getJSON(code)
   if (auth) {
     debug.log('login info recovered: ', auth)
-    return P.resolve(auth.data)
+    return P.resolve(auth)
   }
   return new P((resolve, reject) =>
     post('/wechat/login', {
       code: code
     })
     .then(res => {
-      cache.setJSON(code, res.data)
-      resolve(res.data)
+      auth = res.data
+      console.log('xxxxxxx', auth)
+      cache.setJSON(code, auth)
+      resolve(auth)
     })
     .catch(err => {
       debug.error('login', err)
@@ -42,11 +44,14 @@ function wechatLogin() {
 }
 
 function wechatUserInfo() {
-  return post('/wechat/userinfo')
-      .then(res => {
-        debug.log('userinfo', res)
-      })
-      .catch(err => debug.error('userinfo', err))
+  console.log(auth)
+  return post('/wechat/userinfo', {
+      openid: auth.openid
+    })
+    .then(res => {
+      debug.log('userinfo', res)
+    })
+    .catch(err => debug.error('userinfo', err))
 }
 
 function testLogin() {
@@ -70,12 +75,12 @@ function testLogin() {
 }
 
 function testUserInfo() {
-   return post('/test/userinfo')
-      .then(res => {
-        debug.log('userinfo', res.data)
-        window.user = res.data
-      })
-      .catch(err => debug.error('userinfo', err))
+  return post('/test/userinfo')
+    .then(res => {
+      debug.log('userinfo', res.data)
+      window.user = res.data
+    })
+    .catch(err => debug.error('userinfo', err))
 }
 
 function wrapper(func) {
@@ -91,8 +96,8 @@ var EnvEnum = {
   WeChat: 1
 }
 
-var ENV = (function () {
-  return EnvEnum.Web
+var ENV = (function() {
+  return EnvEnum.WeChat
 }())
 
 export default {
@@ -103,22 +108,26 @@ export default {
   },
   login() {
     switch (ENV) {
-      case EnvEnum.WeChat:return wechatLogin()
-      default: return testLogin()
+      case EnvEnum.WeChat:
+        return wechatLogin()
+      default:
+        return testLogin()
     }
   },
   userinfo(openid) {
     wrapper(() => {
       switch (ENV) {
-        case EnvEnum.WeChat: return wechatUserInfo()
-        default: return testUserInfo()
+        case EnvEnum.WeChat:
+          return wechatUserInfo()
+        default:
+          return testUserInfo()
       }
     })
   },
   uploadRecord(record) {
     wrapper(() => {
       post('/uploadrecord', { record: record })
-      .then(res => res.data)
+        .then(res => res.data)
     })
   }
 }

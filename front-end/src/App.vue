@@ -15,7 +15,9 @@ export default {
   mounted() {
     service.login()
       .then(auth => {
+        console.log('o', auth)
         service.userinfo(auth.openid)
+        // service.uploadRecord({ correctNum: 1 })
       })
   }
 }
