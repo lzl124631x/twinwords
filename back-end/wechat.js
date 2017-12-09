@@ -4,8 +4,7 @@ const appConfig = require('./static/appConfig.json')
 
 var Schema = mongoose.Schema
 var ObjectId = Schema.ObjectId
-var userSchema = new Schema({
-  id: ObjectId,
+var UserSchema = new Schema({
   wechatOpenId: String,
   name: String,
   gender: String,
@@ -16,7 +15,13 @@ var userSchema = new Schema({
   avatar: String
 })
 
-var User = mongoose.model('User', userSchema)
+UserSchema.statics.findOneOrCreate = function(condition, callback) {
+  return this.findOne(condition, (err, result) => {
+    return result ? callback(err, result) : this.create(condition, (err, result) => callback(err, result))
+  })
+}
+
+var User = mongoose.model('User', UserSchema)
 
 var TokenSchema = new Schema({
   openid: String,
@@ -28,17 +33,17 @@ var TokenSchema = new Schema({
   unionid: String
 })
 
-TokenSchema.statics.getToken = function (openid, cb) {
-  this.findOne({openid:openid}, function (err, result) {
+TokenSchema.statics.getToken = function(openid, cb) {
+  this.findOne({ openid: openid }, function(err, result) {
     if (err) throw err
     return cb(null, result)
   })
 }
 
-TokenSchema.statics.setToken = function (openid, token, cb) {
-  var query = {openid: openid};
-  var options = {upsert: true};
-  this.update(query, token, options, function (err, result) {
+TokenSchema.statics.setToken = function(openid, token, cb) {
+  var query = { openid: openid };
+  var options = { upsert: true };
+  this.update(query, token, options, function(err, result) {
     if (err) throw err;
     return cb(null);
   });
@@ -49,23 +54,8 @@ var Token = mongoose.model('Token', TokenSchema)
 const client = new OAuth(appConfig.appId, appConfig.appSecret, Token.getToken.bind(Token), Token.setToken.bind(Token))
 
 var wechat = {
-  createUser(openid) {
-    return User.create({ wechatOpenId: openid })
-  },
-  getUser(openid) {
-    return User.findOne({ wechatOpenId: openid })
-  },
-  getOrCreateUser(openid) {
-    return this.getUser(openid).then(user => {
-      if (!user) {
-        console.log('user doesn\'t exist create new')
-        return this.createUser(openid)
-      }
-      return user
-    }).then(user => {
-      console.log('done', user)
-      return user
-    })
+  getUser(openid, callback) {
+    return User.findOneOrCreate({ wechatOpenId: openid }, callback)
   },
   deleteUser(openid) {
     return User.remove({ wechatOpenId: openid })
@@ -88,10 +78,12 @@ module.exports = (app) => {
         return
       }
 
-      console.log('login:', result)
       wechat.updateOAuth(result.data)
-      wechat.getOrCreateUser(result.data.openid)
-      res.json(result.data)
+      wechat.getUser(result.data.openid, (err, user) => {
+        result.data.id = user.id
+        console.log("!!!", result.data, user.id)
+        res.json(result.data)
+      })
     })
   })
 

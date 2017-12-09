@@ -44,32 +44,29 @@ app.post('/test/userinfo', (req, res) => {
 })
 
 app.post('/uploadrecord', (req, res) => {
-  var data = req.body.data
-  var id = data.id
-  var record = findRecordById(id)
-  if (!record || isBetter(data, record)) {
-    saveRecord(data)
-  }
+  var token = req.body.token
+  var newRecord = req.body.params
+  findRecordById(token.id).then(record => {
+    if (!record || isBetter(newRecord, record)) {
+      return saveRecord(token.id, newRecord)
+    }
+    res.send('Record is not higher. No update.')
+  }).then(() => {
+    res.send('Record updated.')
+  })
 })
 
 function findRecordById(id) {
-  Record.find({ id: id }, (err, r) => {
-    if (err) return console.error(err)
-    console.log('found', JSON.stringify(r))
-  })
+  return Record.findOne({ id: id })
 }
 
 function isBetter(a, b) {
   return a.correctNum > b.correctNum
 }
 
-function saveRecord(record) {
-  Record.create(record, (err, r) => {
-    if (err) return console.error(err)
-    console.log('save done', JSON.stringify(r))
-  })
+function saveRecord(id, record) {
+  record.id = id
+  return Record.update({ id: id }, record, { upsert: true })
 }
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
-
-// saveRecord({ id: '1', correctNum: 1, score: 1, timestamp: new Date() })

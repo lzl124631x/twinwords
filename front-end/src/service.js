@@ -4,7 +4,7 @@ import cache from './cache'
 import util from './util'
 
 const backendUrl = 'http://localhost:3000'
-var auth = null
+var token = null
 
 function get(url) {
   return axios.get(backendUrl + url)
@@ -16,56 +16,58 @@ function post(url, params) {
   // .catch(err => console.error(url, err)) // Axios `catch` changed the promise: https://github.com/axios/axios/issues/1216
 }
 
+function authPost(url, params) {
+  return axios.post(backendUrl + url, { params: params, token: token })
+}
+
 function wechatLogin() {
   var code = util.getQuery('code')
   if (!code) {
     alert('Failed to login from WeChat.')
     return P.reject()
   }
-  auth = cache.getJSON(code)
-  if (auth) {
-    debug.log('login info recovered: ', auth)
-    return P.resolve(auth)
+  token = cache.getJSON(code)
+  if (token) {
+    return P.resolve(token)
   }
   return new P((resolve, reject) =>
     post('/wechat/login', {
       code: code
     })
     .then(res => {
-      auth = res.data
-      console.log('xxxxxxx', auth)
-      cache.setJSON(code, auth)
-      resolve(auth)
+      token = res.data
+      cache.setJSON(code, token)
+      debug.log('wechatLogin', token)
+      resolve(token)
     })
     .catch(err => {
-      debug.error('login', err)
+      debug.error('wechatLogin', err)
       reject()
     }))
 }
 
 function wechatUserInfo() {
-  console.log(auth)
   return post('/wechat/userinfo', {
-      openid: auth.openid
+      openid: token.openid
     })
     .then(res => {
-      debug.log('userinfo', res)
+      debug.log('wechatUserInfo', res)
     })
     .catch(err => debug.error('userinfo', err))
 }
 
 function testLogin() {
   const id = 1234
-  auth = cache.getJSON(id)
-  if (auth) {
-    return P.resolve(auth)
+  token = cache.getJSON(id)
+  if (token) {
+    return P.resolve(token)
   }
   return new P((resolve, reject) => {
     post('/test/login')
       .then(res => {
-        auth = res.data
-        cache.setJSON(id, auth)
-        resolve(auth)
+        token = res.data
+        cache.setJSON(id, token)
+        resolve(token)
       })
       .catch(err => {
         debug.error(id, err)
@@ -84,7 +86,7 @@ function testUserInfo() {
 }
 
 function wrapper(func) {
-  if (!auth) {
+  if (!token) {
     alert('Please login first!')
     return P.reject()
   }
@@ -126,7 +128,7 @@ export default {
   },
   uploadRecord(record) {
     wrapper(() => {
-      post('/uploadrecord', { record: record })
+      authPost('/uploadrecord', record)
         .then(res => res.data)
     })
   }
