@@ -6,11 +6,6 @@ import util from './util'
 const backendUrl = 'http://localhost:3000'
 var token = null
 
-function get(url) {
-  return axios.get(backendUrl + url)
-    .catch(err => console.error(url, err))
-}
-
 function post(url, params) {
   return axios.post(backendUrl + url, params)
   // .catch(err => console.error(url, err)) // Axios `catch` changed the promise: https://github.com/axios/axios/issues/1216
@@ -90,7 +85,7 @@ function wrapper(func) {
     alert('Please login first!')
     return P.reject()
   }
-  func()
+  return func()
 }
 
 var EnvEnum = {
@@ -104,8 +99,8 @@ var ENV = (function() {
 
 export default {
   getQuizzes() {
-    wrapper(() =>
-      get('/quiz')
+    return wrapper(() =>
+      authPost('/quiz')
       .then(res => res.data))
   },
   login() {

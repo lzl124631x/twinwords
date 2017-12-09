@@ -2,10 +2,7 @@ const OAuth = require('wechat-oauth')
 const mongoose = require('mongoose')
 const appConfig = require('./static/appConfig.json')
 
-mongoose.Promise = require('bluebird');
-
 var Schema = mongoose.Schema
-var ObjectId = Schema.ObjectId
 var UserSchema = new Schema({
   wechatOpenId: String,
   name: String,
@@ -24,6 +21,7 @@ UserSchema.statics.findOneOrCreate = function(condition, callback) {
 }
 
 var User = mongoose.model('User', UserSchema)
+exports.User = User
 
 var TokenSchema = new Schema({
   openid: String,
@@ -70,7 +68,7 @@ var wechat = {
   }
 }
 
-module.exports = (app) => {
+exports.wechatAPI = (app) => {
   app.post('/wechat/login', (req, res) => {
     console.log(req.body.code)
     client.getAccessToken(req.body.code, (err, result) => {

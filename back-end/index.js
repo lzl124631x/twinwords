@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const quiz = require('./quiz')
 const cors = require('cors')
-const wechat = require('./wechat')
+const { wechatAPI, User } = require('./wechat')
 const mongoose = require('mongoose')
 
 app.use(cors())
@@ -11,23 +11,34 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 mongoose.connect('mongodb://localhost:27017')
-
+mongoose.Promise = require('bluebird')
 var Schema = mongoose.Schema
 
-var recordSchema = new Schema({
+wechatAPI(app)
+
+var RecordSchema = new Schema({
   id: String,
   correctNum: Number,
   score: Number,
   timestamp: Date
 })
 
-var Record = mongoose.model('Record', recordSchema)
+var Record = mongoose.model('Record', RecordSchema)
+function verifyUser(id) {
+  return User.findOne({ _id: id })
+}
 
-wechat(app)
-
-app.get('/quiz', (req, res) => {
-  var data = quiz.getQuizzes()
-  res.send(data)
+app.post('/quiz', (req, res) => {
+  var token = req.body.token
+  verifyUser(token.id).then(user => {
+    if (!user) {
+      var msg = `No user with id: ${token.id}`
+      console.log(msg)
+      res.status(400).send(msg)
+    }
+    var data = quiz.getQuizzes()
+    res.send(data)
+  })
 })
 
 app.post('/test/login', (req, res) => {

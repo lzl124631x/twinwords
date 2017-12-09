@@ -16,7 +16,6 @@ export default {
     service.login()
       .then(auth => {
         service.userinfo(auth.openid)
-        // service.uploadRecord({ correctNum: 1 })
       })
   }
 }
