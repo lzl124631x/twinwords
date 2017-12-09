@@ -1,7 +1,6 @@
 const OAuth = require('wechat-oauth')
 const mongoose = require('mongoose')
-
-const client = new OAuth('wx8dbce39be0717e01', '57bb71ba517cdfd1dbff1b24a97dfbde');
+const appConfig = require('./static/appConfig.json')
 
 var Schema = mongoose.Schema
 var ObjectId = Schema.ObjectId
@@ -19,7 +18,7 @@ var userSchema = new Schema({
 
 var User = mongoose.model('User', userSchema)
 
-var oauthDataSchema = new Schema({
+var TokenSchema = new Schema({
   openid: String,
   access_token: String,
   create_at: Number,
@@ -29,7 +28,25 @@ var oauthDataSchema = new Schema({
   unionid: String
 })
 
-var OAuthData = mongoose.model('OAuthData', oauthDataSchema)
+TokenSchema.statics.getToken = function (openid, cb) {
+  this.findOne({openid:openid}, function (err, result) {
+    if (err) throw err
+    return cb(null, result)
+  })
+}
+
+TokenSchema.statics.setToken = function (openid, token, cb) {
+  var query = {openid: openid};
+  var options = {upsert: true};
+  this.update(query, token, options, function (err, result) {
+    if (err) throw err;
+    return cb(null);
+  });
+};
+
+var Token = mongoose.model('Token', TokenSchema)
+
+const client = new OAuth(appConfig.appId, appConfig.appSecret, Token.getToken.bind(Token), Token.setToken.bind(Token))
 
 var wechat = {
   createUser(openid) {
@@ -54,10 +71,10 @@ var wechat = {
     return User.remove({ wechatOpenId: openid })
   },
   updateUser(openid, userinfo) {
-    return User.where({ wechatOpenId: openid }).update({ name: userinfo.name})
+    return User.update({ wechatOpenId: openid }, userinfo, { upsert: true })
   },
   updateOAuth(oauth) {
-    return OAuthData.update({ openid: oauth.openid }, oauth, { upsert: true }).exec()
+    return Token.update({ openid: oauth.openid }, oauth, { upsert: true }).exec()
   }
 }
 
@@ -79,7 +96,7 @@ module.exports = (app) => {
   })
 
   app.post('/wechat/userinfo', (req, res) => {
-    var openid = req.body.openid;
+    var openid = req.body.openid
     client.getUser(openid, (err, userinfo) => {
       if (err) {
         console.log('userinfo', err, userinfo)
@@ -87,10 +104,13 @@ module.exports = (app) => {
         return
       }
       console.log('userinfo', userinfo)
-      userinfo.name = userinfo.nickname;
-      userinfo.gender = userinfo.sex.toString();
-      userinfo.avatar = userinfo.headimgurl;
-      wechat.updateUser(openid, { name: "ff", gender: "xx" }).exec()
+      userinfo.name = userinfo.nickname
+      userinfo.gender = userinfo.sex.toString()
+      userinfo.avatar = userinfo.headimgurl
+      wechat.updateUser(openid, userinfo).exec((err, user) => {
+        if (err) console.error(err)
+        console.log('done user', err, user)
+      })
       res.json(userinfo)
     })
   })
