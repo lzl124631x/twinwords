@@ -2,6 +2,8 @@ const OAuth = require('wechat-oauth')
 const mongoose = require('mongoose')
 const appConfig = require('./static/appConfig.json')
 
+mongoose.Promise = require('bluebird');
+
 var Schema = mongoose.Schema
 var ObjectId = Schema.ObjectId
 var UserSchema = new Schema({
@@ -81,7 +83,6 @@ module.exports = (app) => {
       wechat.updateOAuth(result.data)
       wechat.getUser(result.data.openid, (err, user) => {
         result.data.id = user.id
-        console.log("!!!", result.data, user.id)
         res.json(result.data)
       })
     })
@@ -99,11 +100,10 @@ module.exports = (app) => {
       userinfo.name = userinfo.nickname
       userinfo.gender = userinfo.sex.toString()
       userinfo.avatar = userinfo.headimgurl
-      wechat.updateUser(openid, userinfo).exec((err, user) => {
+      wechat.updateUser(openid, userinfo).exec(err => {
         if (err) console.error(err)
-        console.log('done user', err, user)
+        res.json(userinfo)
       })
-      res.json(userinfo)
     })
   })
 }
