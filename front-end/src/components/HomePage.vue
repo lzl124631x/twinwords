@@ -1,8 +1,15 @@
 <template>
 <div class="page">
   <div class="content content-hv-center">
-    <div class="greeting" v-if="state.user.name">
-      {{ `Hi, ${state.user.name}` }}
+    <div class="dashboard">
+      <div class="greeting"
+           v-if="state.user.name">
+        {{ `Hi, ${state.user.name}` }}
+      </div>
+      <div class="best-record"
+           v-if="state.record.correctNum">
+        {{ `Best: ${state.record.correctNum}` }}
+      </div>
     </div>
     <h1>Twin<br/>Words</h1>
   </div>
@@ -29,10 +36,13 @@ export default {
 </script>
 
 <style scoped="" lang="less">
-.greeting {
+.dashboard {
   position: absolute;
   top: 1em;
   left: 1em;
-    font-size: .6em; 
+  text-align: left;
+  >div {
+    font-size: .6em;
+  }
 }
 </style>

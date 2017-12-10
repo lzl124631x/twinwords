@@ -23,7 +23,8 @@ window.store = {
   state: {
     correctNum: 0,
     history: [],
-    user: { name: undefined }
+    user: { name: undefined },
+    record: { correctNum: undefined }
   },
   reset() {
     this.state.correctNum = 0
@@ -35,6 +36,9 @@ window.store = {
   },
   updateUserInfo (userinfo) {
     this.state.user.name = userinfo.name
+  },
+  updateBestRecord (best) {
+    this.state.record.correctNum = best.correctNum
   }
 }
 
