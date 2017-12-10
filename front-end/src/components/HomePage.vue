@@ -1,9 +1,8 @@
 <template>
 <div class="page">
   <div class="content content-hv-center">
-    <div class="greeting"
-         v-if="user.name">
-      {{ `Hi, ${user.name}` }}
+    <div class="greeting" v-if="state.user.name">
+      {{ `Hi, ${state.user.name}` }}
     </div>
     <h1>Twin<br/>Words</h1>
   </div>
@@ -20,7 +19,7 @@ export default {
   name: 'HomePage',
   data() {
     return {
-      user: window.user
+      state: store.state
     }
   },
   methods: {

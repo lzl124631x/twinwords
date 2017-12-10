@@ -22,7 +22,8 @@ window.debug = {
 window.store = {
   state: {
     correctNum: 0,
-    history: []
+    history: [],
+    user: { name: undefined }
   },
   reset() {
     this.state.correctNum = 0
@@ -31,10 +32,11 @@ window.store = {
   pushHistory(zh, en, correct) {
     if (correct) ++this.state.correctNum
     this.state.history.push({ zh: zh, en: en, correct: correct })
+  },
+  updateUserInfo (userinfo) {
+    this.state.user.name = userinfo.name
   }
 }
-
-window.user = {}
 
 /* eslint-disable no-new */
 new Vue({

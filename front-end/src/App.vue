@@ -15,7 +15,7 @@ export default {
   mounted() {
     service.login()
       .then(auth => {
-        service.userinfo(auth.openid)
+        service.userinfo(auth.openid).then(userinfo => store.updateUserInfo(userinfo))
         service.bestRecord()
       })
   }

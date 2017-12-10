@@ -47,6 +47,7 @@ function wechatUserInfo() {
     })
     .then(res => {
       debug.log('wechatUserInfo', res)
+      return res.data
     })
     .catch(err => debug.error('userinfo', err))
 }
@@ -112,7 +113,7 @@ export default {
     }
   },
   userinfo(openid) {
-    wrapper(() => {
+    return wrapper(() => {
       switch (ENV) {
         case EnvEnum.WeChat:
           return wechatUserInfo()
