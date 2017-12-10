@@ -21,9 +21,9 @@ wechatAPI(app)
 var RecordSchema = new Schema({
   id: String,
   correctNum: { type: Number, default: 0 },
-  score: Number,
-  timestamp: Date
-})
+  score: Number
+},
+{ timestamps: true })
 
 RecordSchema.statics.findOneOrCreate = findOneOrCreate
 var Record = mongoose.model('Record', RecordSchema)
@@ -111,7 +111,7 @@ function saveRecord(id, record) {
 }
 
 function getRanking(num) {
-  return Record.find({}).sort({ correctNum: -1 }).limit(num);
+  return Record.find({}).sort({ correctNum: -1, updatedAt: 1 }).limit(num);
 }
 
 app.listen(3000, () => console.log('twinword listening on port 3000!'))
