@@ -126,5 +126,10 @@ export default {
       authPost('/uploadrecord', record)
         .then(res => res.data)
     })
+  },
+  bestRecord() {
+    return wrapper(() => authPost('/bestrecord')
+      .then(res => res.data)
+    )
   }
 }

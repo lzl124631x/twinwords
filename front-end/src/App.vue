@@ -16,6 +16,7 @@ export default {
     service.login()
       .then(auth => {
         service.userinfo(auth.openid)
+        service.bestRecord()
       })
   }
 }

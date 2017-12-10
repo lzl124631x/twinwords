@@ -37,6 +37,7 @@ app.post('/quiz', (req, res) => {
       var msg = `No user with id: ${token.id}`
       console.log(msg)
       res.status(400).send(msg)
+      return
     }
     var data = quiz.getQuizzes()
     res.send(data)
@@ -73,6 +74,25 @@ app.post('/uploadrecord', (req, res) => {
   })
 })
 
+app.post('/bestrecord', (req, res) => {
+  var token = req.body.token
+  verifyUser(token.id).then(user => {
+    if (!user) {
+      var msg = `No user with id: ${token.id}`
+      console.log(msg)
+      res.status(400).send(msg)
+      return
+    }
+    return findRecordById(token.id)
+  }).then(record => {
+    if (!record) {
+      res.send({ correctNum: -1 })
+    } else {
+      res.send(record)
+    }
+  })
+})
+
 function findRecordById(id) {
   return Record.findOne({ id: id })
 }
@@ -86,4 +106,4 @@ function saveRecord(id, record) {
   return Record.update({ id: id }, record, { upsert: true })
 }
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3000, () => console.log('twinword listening on port 3000!'))
