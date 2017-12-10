@@ -7,7 +7,7 @@
         {{ `Hi, ${state.user.name}` }}
       </div>
       <div class="best-record"
-           v-if="state.record.correctNum">
+           v-if="state.record.correctNum !== undefined">
         {{ `Best: ${state.record.correctNum}` }}
       </div>
     </div>

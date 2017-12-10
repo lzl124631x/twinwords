@@ -86,7 +86,7 @@ app.post('/bestrecord', (req, res) => {
     return findRecordById(token.id)
   }).then(record => {
     if (!record) {
-      res.send({ correctNum: -1 })
+      res.send({ correctNum: 0 })
     } else {
       res.send(record)
     }

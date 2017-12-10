@@ -3,7 +3,10 @@
   <div class="header">
     <div class="card">
       <div class="title">Scoreboard</div>
-      <div>Correct: {{ globalState.correctNum }}</div>
+      <div class="body">
+        <div>{{ `Correct: ${globalState.correctNum}`}}</div>
+        <div>{{ `Best: ${globalState.record.correctNum}`}}</div>
+      </div>
     </div>
   </div>
   <div class="content v-flex">
@@ -57,6 +60,13 @@ export default {
 <style scoped="" lang="less">
 .header {
   padding: 1em;
+  .card .body {
+    display: flex;
+    div {
+      flex: 1;
+      font-size: .8em;
+    }
+  }
 }
 
 .content {
