@@ -67,7 +67,6 @@ var wechat = {
 
 exports.wechatAPI = (app) => {
   app.post('/wechat/login', (req, res) => {
-    console.log(req.body.code)
     client.getAccessToken(req.body.code, (err, result) => {
       if (err) {
         console.log(err, result)
@@ -84,7 +83,7 @@ exports.wechatAPI = (app) => {
   })
 
   app.post('/wechat/userinfo', (req, res) => {
-    var openid = req.body.openid
+    var openid = req.body.params.openid
     client.getUser(openid, (err, userinfo) => {
       if (err) {
         console.log('userinfo', err, userinfo)
