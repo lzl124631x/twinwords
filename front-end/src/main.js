@@ -24,7 +24,8 @@ window.store = {
     correctNum: 0,
     history: [],
     user: { name: undefined },
-    record: { correctNum: undefined }
+    record: { correctNum: undefined },
+    ranking: []
   },
   reset() {
     this.state.correctNum = 0

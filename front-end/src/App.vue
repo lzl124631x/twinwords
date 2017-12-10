@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import util from './util'
-import service from './service'
+import util from './util';
+import service from './service';
 
 export default {
   name: 'app',
@@ -113,12 +113,24 @@ body.has-hover {
   border-radius: .3em;
   padding: .5em;
   .title {
-    font-size: 1.2em;
     margin-bottom: .5em;
   }
   .body {
     overflow: auto;
     flex: 1;
+  }
+  .section {
+    &:extend(.v-flex);
+    .title {
+      flex: none;
+    }
+  }
+  .section+.section:before {
+    content: " ";
+    display: block;
+    width: 100%;
+    border-top: 1px solid #999;
+    margin: .5em 0;
   }
 }
 
