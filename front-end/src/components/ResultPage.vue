@@ -28,10 +28,10 @@
     </div>
   </div>
   <div class="footer">
-    <a v-on:click="backHome"
-       class="button">Home</a>
     <a v-on:click="restart"
        class="button">Restart</a>
+    <a v-on:click="backHome"
+       class="button">Home</a>
   </div>
 </div>
 
