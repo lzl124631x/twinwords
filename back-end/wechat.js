@@ -1,6 +1,7 @@
 const OAuth = require('wechat-oauth')
 const mongoose = require('mongoose')
 const appConfig = require('./static/appConfig.json')
+const { findOneOrCreate } = require('./util')
 
 var Schema = mongoose.Schema
 var UserSchema = new Schema({
@@ -14,11 +15,7 @@ var UserSchema = new Schema({
   avatar: String
 })
 
-UserSchema.statics.findOneOrCreate = function(condition, callback) {
-  return this.findOne(condition, (err, result) => {
-    return result ? callback(err, result) : this.create(condition, (err, result) => callback(err, result))
-  })
-}
+UserSchema.statics.findOneOrCreate = findOneOrCreate
 
 var User = mongoose.model('User', UserSchema)
 exports.User = User

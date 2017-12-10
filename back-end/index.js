@@ -6,6 +6,7 @@ const cors = require('cors')
 const { wechatAPI, User } = require('./wechat')
 const mongoose = require('mongoose')
 const P = require('bluebird')
+const { findOneOrCreate } = require('./util')
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -19,11 +20,12 @@ wechatAPI(app)
 
 var RecordSchema = new Schema({
   id: String,
-  correctNum: Number,
+  correctNum: { type: Number, default: 0 },
   score: Number,
   timestamp: Date
 })
 
+RecordSchema.statics.findOneOrCreate = findOneOrCreate
 var Record = mongoose.model('Record', RecordSchema)
 
 function verifyUser(id) {
@@ -61,10 +63,10 @@ app.post('/uploadrecord', (req, res) => {
   var token = req.body.token
   var newRecord = req.body.params
   findRecordById(token.id).then(record => {
-    if (!record || isBetter(newRecord, record)) {
+    if (isBetter(newRecord, record)) {
       return saveRecord(token.id, newRecord)
     }
-    return P.resolve(false)
+    return false
   }).then(r => {
     if (r) {
       res.send('Record updated.')
@@ -85,16 +87,12 @@ app.post('/bestrecord', (req, res) => {
     }
     return findRecordById(token.id)
   }).then(record => {
-    if (!record) {
-      res.send({ correctNum: 0 })
-    } else {
-      res.send(record)
-    }
+    res.send(record)
   })
 })
 
 function findRecordById(id) {
-  return Record.findOne({ id: id })
+  return Record.findOneOrCreate({ id: id })
 }
 
 function isBetter(a, b) {
