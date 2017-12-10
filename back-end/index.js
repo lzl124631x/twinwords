@@ -5,6 +5,7 @@ const quiz = require('./quiz')
 const cors = require('cors')
 const { wechatAPI, User } = require('./wechat')
 const mongoose = require('mongoose')
+const P = require('bluebird')
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -24,6 +25,7 @@ var RecordSchema = new Schema({
 })
 
 var Record = mongoose.model('Record', RecordSchema)
+
 function verifyUser(id) {
   return User.findOne({ _id: id })
 }
@@ -61,9 +63,13 @@ app.post('/uploadrecord', (req, res) => {
     if (!record || isBetter(newRecord, record)) {
       return saveRecord(token.id, newRecord)
     }
-    res.send('Record is not higher. No update.')
-  }).then(() => {
-    res.send('Record updated.')
+    return P.resolve(false)
+  }).then(r => {
+    if (r) {
+      res.send('Record updated.')
+    } else {
+      res.send('Record is not higher. No update.')
+    }
   })
 })
 
