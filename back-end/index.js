@@ -29,18 +29,20 @@ RecordSchema.statics.findOneOrCreate = findOneOrCreate
 var Record = mongoose.model('Record', RecordSchema)
 
 function verifyUser(id) {
-  return User.findOne({ _id: id })
+  return User.findOne({ _id: id }).then(user => {
+    if (!user) {
+      var msg = `No user with id: ${token.id}`
+      console.log(msg)
+      res.status(400).send(msg)
+      return P.reject()
+    }
+    return user
+  })
 }
 
 app.post('/quiz', (req, res) => {
   var token = req.body.token
   verifyUser(token.id).then(user => {
-    if (!user) {
-      var msg = `No user with id: ${token.id}`
-      console.log(msg)
-      res.status(400).send(msg)
-      return
-    }
     var data = quiz.getQuizzes()
     res.send(data)
   })
@@ -79,15 +81,19 @@ app.post('/uploadrecord', (req, res) => {
 app.post('/bestrecord', (req, res) => {
   var token = req.body.token
   verifyUser(token.id).then(user => {
-    if (!user) {
-      var msg = `No user with id: ${token.id}`
-      console.log(msg)
-      res.status(400).send(msg)
-      return
-    }
     return findRecordById(token.id)
   }).then(record => {
     res.send(record)
+  })
+})
+
+app.post('/ranking', (req, res) => {
+  var token = req.body.token
+  verifyUser(token.id).then(user => {
+    return getRanking(50)
+  }).then(ranking => {
+    console.log('ranking', ranking)
+    res.send(ranking)
   })
 })
 
@@ -102,6 +108,10 @@ function isBetter(a, b) {
 function saveRecord(id, record) {
   record.id = id
   return Record.update({ id: id }, record, { upsert: true })
+}
+
+function getRanking(num) {
+  return Record.find({}).sort({ correctNum: -1 }).limit(num);
 }
 
 app.listen(3000, () => console.log('twinword listening on port 3000!'))

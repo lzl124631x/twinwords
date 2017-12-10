@@ -6,11 +6,6 @@ import util from './util'
 const backendUrl = 'http://localhost:3000'
 var loginDeferred = P.pending()
 
-function post(url, params) {
-  return axios.post(backendUrl + url, params)
-  // .catch(err => console.error(url, err)) // Axios `catch` changed the promise: https://github.com/axios/axios/issues/1216
-}
-
 function authPost(url, params) {
   return loginDeferred.promise.then(token => {
     return axios.post(backendUrl + url, { params: params, token: token })
@@ -124,6 +119,10 @@ export default {
   },
   bestRecord() {
     return authPost('/bestrecord')
+      .then(res => res.data)
+  },
+  ranking() {
+    return authPost('/ranking')
       .then(res => res.data)
   }
 }

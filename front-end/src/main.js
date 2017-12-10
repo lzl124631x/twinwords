@@ -40,6 +40,9 @@ window.store = {
   },
   updateBestRecord (best) {
     this.state.record.correctNum = best.correctNum
+  },
+  updateRanking (ranking) {
+    this.state.ranking = ranking
   }
 }
 

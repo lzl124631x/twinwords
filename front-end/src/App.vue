@@ -17,6 +17,7 @@ export default {
       .then(auth => {
         service.userinfo(auth.openid).then(userinfo => store.updateUserInfo(userinfo))
         service.bestRecord().then(best => store.updateBestRecord(best))
+        service.ranking().then(ranking => store.updateRanking(ranking))
       })
   }
 }
@@ -72,10 +73,12 @@ body {
   background: #191919;
 }
 
-.button {
+button, .button {
   display: inline-block;
   border: solid .2em #ddd;
   border-radius: .4em;
+  background: transparent;
+  outline: 0;
   padding: .5em 1em;
   cursor: pointer;
   color: #fff;
@@ -105,6 +108,10 @@ body.has-hover {
   .button {
     margin: 1em;
     flex: 1;
+  }
+
+  .button + .button {
+    margin-left: 0;
   }
 }
 
@@ -141,5 +148,18 @@ body.has-hover {
 
 .msg {
   color: #999;
+}
+
+.modal {
+  position: fixed;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,.7);
 }
 </style>
