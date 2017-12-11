@@ -1,33 +1,38 @@
-var twinWords = require('./static/twin-words.json')
+var db = require('./static/twin-words.json')
 var dict = require('./static/dict.json')
 var util = require('./util')
 
-var db = createTwinWordDB(twinWords)
 var dict = util.reduce(dict, (memo, item) => memo[item.en] = item.cn, {})
+
+// Split db into three chunks, twins, triplets, and others.
+var db = util.reduce(db, (memo, neighbor, word) => memo[Math.min(neighbor.length, 3) - 1][word] = neighbor, [{}, {}, {}])
 
 module.exports = {
   getQuizzes() {
-    var twins = util.reservoirSampling(db, 20)
-    return generateQuizzes(twins, dict)
+    const counts = [7, 7, 7]
+    var tuples = []
+    counts.forEach((cnt, index) => tuples = tuples.concat(getTuples(db[index], util.reservoirSampling(Object.keys(db[index]), cnt), 2 + index)))
+    return generateQuizzes(tuples, dict)
   }
 }
 
-function createTwinWordDB(twinWords) {
-  var db = []
-  for (var word in twinWords) {
-    twinWords[word].forEach(neighbor => db.push([word, neighbor]))
-  }
-  return db
+function getTuples(db, words, num) {
+  return words.map(word => {
+    var neighbor = db[word]
+    var tuple = util.reservoirSampling(neighbor, num - 1)
+    tuple.push(word)
+    return tuple
+  })
 }
 
-function generateQuizzes(twins, dict) {
-  return twins.map(twin => {
-    var index = util.getRandomInt(0, twin.length)
-    var key = twin[index]
+function generateQuizzes(tuples, dict) {
+  return tuples.map(tuple => {
+    var index = util.getRandomInt(0, tuple.length)
+    var key = tuple[index]
     var q = dict[key]
     return {
       q: q,
-      options: twin,
+      options: tuple,
       key: key
     }
   })

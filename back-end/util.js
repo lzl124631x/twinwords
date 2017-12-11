@@ -1,4 +1,4 @@
-var noop = function() {}
+ var noop = function() {}
 module.exports = {
   findOneOrCreate(condition) {
     return this.findOne(condition).then(result => {
@@ -15,7 +15,7 @@ module.exports = {
   },
   reservoirSampling(db, count) {
     count = Math.min(db.length, count)
-    if (count === db.length) return db
+    if (count === db.length) return this.cloneArray(db)
     var samples = []
     db.forEach((item, i) => {
       if (i < count) {
@@ -29,8 +29,15 @@ module.exports = {
     })
     return samples
   },
-  reduce(array, fn, memo) {
-    array.forEach(item => fn(memo, item))
+  reduce(target, fn, memo) {
+    if (Array.isArray(target)) {
+      target.forEach(item => fn(memo, item))
+    } else {// For Object
+      Object.keys(target).forEach(key => fn(memo, target[key], key))
+    }
     return memo
+  },
+  cloneArray(array) {
+    return array.slice(0)
   }
 }
