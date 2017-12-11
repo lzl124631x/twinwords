@@ -152,6 +152,7 @@ body.has-hover {
 
 .modal {
   position: fixed;
+  width: 80%;
 }
 
 .modal-backdrop {
@@ -161,5 +162,18 @@ body.has-hover {
   bottom: 0;
   left: 0;
   background: rgba(0,0,0,.7);
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  padding: .3em 0;
+  >span {
+    flex: 1;
+    padding: 0 .25em;
+  }
+  >span.no-flex {
+    flex: none;
+  }
 }
 </style>

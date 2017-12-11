@@ -31,19 +31,7 @@
                  v-else>NO HISTORY</div>
           </div>
           <div v-bind:class="{ active: activeTabIndex === 1 }">
-            <div class="my-rank flex-row rank-row">
-                <span class="rank-num no-flex">{{ globalState.myRank + 1 }}</span>
-                <span class="name">{{ globalState.user.name }}</span>
-                <span class="correct-num">{{ globalState.record.correctNum }}</span>
-            </div>
-            <ul v-if="globalState.ranking">
-              <li v-for="(rank, index) in globalState.ranking"
-                  class="flex-row rank-row">
-                <span class="rank-num no-flex">{{ index + 1 }}</span>
-                <span class="name">{{ rank.user.name }}</span>
-                <span class="correct-num">{{ rank.correctNum }}</span>
-              </li>
-            </ul>
+            <rank-list></rank-list>
           </div>
         </div>
       </div>
@@ -123,19 +111,6 @@ export default {
   }
 }
 
-.flex-row {
-  display: flex;
-  align-items: center;
-  padding: .3em 0;
-  >span {
-    flex: 1;
-    padding: 0 .25em;
-  }
-  >span.no-flex {
-    flex: none;
-  }
-}
-
 .history-row {
   .zh {
     flex: 2;
@@ -152,27 +127,5 @@ export default {
       color: #f05458;
     }
   }
-}
-
-.rank-row {
-  .rank-num {
-    font-size: .6em;
-  }
-  &:nth-child(1) .rank-num {
-    color: gold;
-    font-size: 1em;
-  }
-  &:nth-child(2) .rank-num {
-    color: silver;
-    font-size: .8em;
-  }
-  &:nth-child(3) .rank-num {
-    color: #cd7f32;
-    font-size: .7em;
-  }
-}
-
-.my-rank {
-  background: #333;
 }
 </style>

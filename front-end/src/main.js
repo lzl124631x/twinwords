@@ -48,6 +48,8 @@ window.store = {
   }
 }
 
+Vue.component('rank-list', require('./components/RankList.vue').default)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
