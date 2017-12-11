@@ -2,6 +2,8 @@
 <div class="page"
      v-if="quizzes">
   <div class="header">
+    <button v-on:click="quit">×</button>
+    <div class="quiz-progress">{{ `${curQuizIndex + 1} / ${quizzes.length}`}}</div>
     <ul class="lives">
       <li v-for="life in maxLives"
           class="life"
@@ -82,6 +84,9 @@ export default {
           this.curQuizIndex++
         }
       }, 500)
+    },
+    quit() {
+      this.$router.go(-1)
     }
   }
 }
@@ -95,12 +100,24 @@ ul {
 
 .header {
   text-align: left;
+  display: flex;
+  align-items: center;
+
+  button {
+    border: 0;
+    margin-left: 1em;
+  }
+  .quiz-progress {
+    flex: 1;
+    text-align: center;
+    font-size: .6em;
+    color: #999;
+  }
   .lives {
     display: inline-block;
     .life {
       display: inline-block;
       color: #f05458;
-      font-size: 1.3em;
       margin: .3em;
       &.off {
         color: #333;
