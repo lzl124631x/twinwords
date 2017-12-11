@@ -35,7 +35,7 @@
               <li v-for="(rank, index) in globalState.ranking"
                   class="flex-row rank-row">
                 <span class="rank-num no-flex">{{ index + 1 }}</span>
-                <span class="name">{{ rank.name }}</span>
+                <span class="name">{{ rank.user.name }}</span>
                 <span class="correct-num">{{ rank.correctNum }}</span>
               </li>
             </ul>

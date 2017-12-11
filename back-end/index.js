@@ -19,7 +19,7 @@ var Schema = mongoose.Schema
 wechatAPI(app)
 
 var RecordSchema = new Schema({
-  id: String,
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
   correctNum: { type: Number, default: 0 },
   score: Number
 },
@@ -64,7 +64,7 @@ app.post('/test/userinfo', (req, res) => {
 app.post('/uploadrecord', (req, res) => {
   var token = req.body.token
   var newRecord = req.body.params
-  findRecordById(token.id).then(record => {
+  findRecordByUserId(token.id).then(record => {
     if (isBetter(newRecord, record)) {
       return saveRecord(token.id, newRecord)
     }
@@ -81,7 +81,7 @@ app.post('/uploadrecord', (req, res) => {
 app.post('/bestrecord', (req, res) => {
   var token = req.body.token
   verifyUser(token.id).then(user => {
-    return findRecordById(token.id)
+    return findRecordByUserId(token.id)
   }).then(record => {
     res.send(record)
   })
@@ -97,21 +97,21 @@ app.post('/ranking', (req, res) => {
   })
 })
 
-function findRecordById(id) {
-  return Record.findOneOrCreate({ id: id })
+function findRecordByUserId(userId) {
+  return Record.findOneOrCreate({ user: userId })
 }
 
 function isBetter(a, b) {
   return a.correctNum > b.correctNum
 }
 
-function saveRecord(id, record) {
-  record.id = id
-  return Record.update({ id: id }, record, { upsert: true })
+function saveRecord(userId, record) {
+  record.user = userId
+  return Record.update({ user: userId }, record, { upsert: true })
 }
 
 function getRanking(num) {
-  return Record.find({}).sort({ correctNum: -1, updatedAt: 1 }).limit(num);
+  return Record.find({}).sort({ correctNum: -1, updatedAt: 1 }).limit(num).populate('user', 'name');
 }
 
 app.listen(3000, () => console.log('twinword listening on port 3000!'))

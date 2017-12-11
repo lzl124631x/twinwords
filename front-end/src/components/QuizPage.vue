@@ -64,9 +64,16 @@ export default {
         this.chosen = ''
         if ((wrong && this.lives === 0)
           || this.curQuizIndex + 1 === this.quizzes.length) {
-          service.uploadRecord({ correctNum: store.state.correctNum })
+          service.uploadRecord({
+            correctNum: store.state.correctNum
+          })
+            .then(() => {
+              service.ranking().then(ranking => store.updateRanking(ranking))
+            })
           if (store.state.correctNum > store.state.record.correctNum) {
-            store.updateBestRecord({ correctNum: store.state.correctNum })
+            store.updateBestRecord({
+              correctNum: store.state.correctNum
+            })
           }
           this.$router.push({
             name: 'result'
