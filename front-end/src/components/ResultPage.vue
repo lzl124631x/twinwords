@@ -31,6 +31,11 @@
                  v-else>NO HISTORY</div>
           </div>
           <div v-bind:class="{ active: activeTabIndex === 1 }">
+            <div class="my-rank flex-row rank-row">
+                <span class="rank-num no-flex">{{ globalState.myRank + 1 }}</span>
+                <span class="name">{{ globalState.user.name }}</span>
+                <span class="correct-num">{{ globalState.record.correctNum }}</span>
+            </div>
             <ul v-if="globalState.ranking">
               <li v-for="(rank, index) in globalState.ranking"
                   class="flex-row rank-row">
@@ -122,11 +127,9 @@ export default {
   display: flex;
   align-items: center;
   padding: .3em 0;
-  >span+span {
-    padding-left: .5em;
-  }
   >span {
     flex: 1;
+    padding: 0 .25em;
   }
   >span.no-flex {
     flex: none;
@@ -167,5 +170,9 @@ export default {
     color: #cd7f32;
     font-size: .7em;
   }
+}
+
+.my-rank {
+  background: #333;
 }
 </style>

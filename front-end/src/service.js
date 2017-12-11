@@ -122,7 +122,7 @@ export default {
       .then(res => res.data)
   },
   ranking() {
-    return authPost('/ranking')
+    return authPost('/ranking', { limit: 50 })
       .then(res => res.data)
   }
 }

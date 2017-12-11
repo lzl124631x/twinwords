@@ -89,8 +89,9 @@ app.post('/bestrecord', (req, res) => {
 
 app.post('/ranking', (req, res) => {
   var token = req.body.token
+  var limit = req.body.params.limit
   verifyUser(token.id).then(user => {
-    return getRanking(50)
+    return getUserRankAndRankList(token.id, limit)
   }).then(ranking => {
     console.log('ranking', ranking)
     res.send(ranking)
@@ -110,8 +111,23 @@ function saveRecord(userId, record) {
   return Record.update({ user: userId }, record, { upsert: true })
 }
 
-function getRanking(num) {
-  return Record.find({}).sort({ correctNum: -1, updatedAt: 1 }).limit(num).populate('user', 'name');
+function getUserRankAndRankList(userId, limit) {
+  return P.join(getUserRank(userId), getRankList(limit), (userRank, rankList) => {
+    return { userRank: userRank, rankList: rankList }
+  })
+}
+
+function getRankList(limit) {
+  return Record.find({}).sort({ correctNum: -1, updatedAt: 1 }).limit(limit).populate('user', 'name');
+}
+
+function getUserRank(userId) {
+  return findRecordByUserId(userId).then(record => {
+    return Record.count({ $or: [
+      { correctNum: { $gt: record.correctNum }},
+      { correctNum: { $eq: record.correctNum }, updatedAt: { $lt: record.updatedAt }}
+      ]})
+  })
 }
 
 app.listen(3000, () => console.log('twinword listening on port 3000!'))

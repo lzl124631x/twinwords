@@ -10,10 +10,18 @@
            v-if="globalState.record.correctNum !== undefined">
         {{ `Best: ${globalState.record.correctNum}` }}
       </div>
+      <div class="my-rank"
+           v-if="globalState.myRank !== undefined">
+        {{ `Rank: ${globalState.myRank + 1}`}}
+      </div>
     </div>
-    <button class="ranking-btn" v-on:click="openModal">Ranking</button>
-    <div class="modal-backdrop" v-on:click="closeModal" v-if="modalOpen"></div>
-    <div class="modal card" v-if="modalOpen">
+    <button class="ranking-btn"
+            v-on:click="openModal">Ranking</button>
+    <div class="modal-backdrop"
+         v-on:click="closeModal"
+         v-if="modalOpen"></div>
+    <div class="modal card"
+         v-if="modalOpen">
       <div class="title">Ranking</div>
       <div class="body">
         <ul v-if="globalState.ranking">
