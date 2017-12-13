@@ -2,13 +2,12 @@
 <div class="page"
      v-if="quizzes">
   <div class="header">
-    <button v-on:click="quit">×</button>
+    <button class="icon-button" v-on:click="quit"><TimesIcon class="icon icon-close"/></button>
     <div class="quiz-progress">{{ `${curQuizIndex + 1} / ${quizzes.length}`}}</div>
-    <ul class="lives">
-      <li v-for="life in maxLives"
-          class="life"
-          v-bind:class="{ off: life > lives }">❤&#xfe0e;</li>
-    </ul>
+    <div class="lives">
+      <HeartIcon class="icon icon-heart" v-for="life in maxLives"
+          v-bind:class="{ off: life > lives }"/>
+    </div>
   </div>
   <div class="quiz content conteng-hv-center">{{ curQuiz.q }}</div>
   <ul class="options footer"
@@ -30,8 +29,15 @@
 
 <script>
 import service from '../service'
+import TimesIcon from '../../asset/times.svg'
+import HeartIcon from '../../asset/heart.svg'
+
 export default {
   name: 'QuizPage',
+  components: {
+    TimesIcon,
+    HeartIcon
+  },
   data() {
     return {
       quizzes: null,
@@ -102,11 +108,9 @@ ul {
   text-align: left;
   display: flex;
   align-items: center;
+  padding: 0 .5em;
 
-  button {
-    border: 0;
-    margin-left: 1em;
-  }
+
   .quiz-progress {
     flex: 1;
     text-align: center;
@@ -115,12 +119,11 @@ ul {
   }
   .lives {
     display: inline-block;
-    .life {
-      display: inline-block;
-      color: #f05458;
+    .icon.icon-heart {
+      fill: #f05458;
       margin: .3em;
       &.off {
-        color: #333;
+        fill: #333;
       }
     }
   }

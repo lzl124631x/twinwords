@@ -21,8 +21,10 @@
             <ul v-if="globalState.history">
               <li v-for="entry in globalState.history"
                   class="flex-row history-row">
-                <span class="icon no-flex"
-                      v-bind:class="{ correct: entry.correct }"></span>
+                <span class="no-flex content-hv-center">
+                  <CheckIcon v-if="entry.correct" class="icon correct"/>
+                  <TimesIcon v-else class="icon"/>
+                </span>
                 <span class="zh">{{entry.zh}}</span>
                 <span class="en">{{entry.en}}</span>
               </li>
@@ -39,17 +41,28 @@
   </div>
   <div class="footer">
     <a v-on:click="restart"
-       class="button">Restart</a>
+       class="button"><RedoIcon class="icon"/>&nbsp;Restart</a>
     <a v-on:click="backHome"
-       class="button">Home</a>
+       class="button"><HomeIcon class="icon"/>&nbsp;Home</a>
   </div>
 </div>
 
 </template>
 
 <script>
+import CheckIcon from '../../asset/check.svg';
+import TimesIcon from '../../asset/times.svg';
+import RedoIcon from '../../asset/redo-alt.svg';
+import HomeIcon from '../../asset/home.svg';
+
 export default {
   name: 'ResultPage',
+  components: {
+    CheckIcon,
+    TimesIcon,
+    RedoIcon,
+    HomeIcon
+  },
   data() {
     return {
       globalState: store.state,
@@ -118,13 +131,11 @@ export default {
     font-size: .8em;
   }
   .icon {
-    &.correct:after {
-      content: '√';
-      color: #81d468;
+    &.correct {
+      fill: #81d468;
     }
-    &:not(.correct):after {
-      content: '×';
-      color: #f05458;
+    &:not(.correct) {
+      fill: #f05458;
     }
   }
 }

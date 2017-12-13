@@ -15,8 +15,8 @@
         {{ `Rank: ${globalState.myRank + 1}`}}
       </div>
     </div>
-    <button class="ranking-btn"
-            v-on:click="openModal">Ranking</button>
+    <button class="ranking-btn icon-button"
+            v-on:click="openModal"><TrophyIcon class="icon"/></button>
     <div class="modal-backdrop"
          v-on:click="closeModal"
          v-if="modalOpen"></div>
@@ -31,15 +31,22 @@
   </div>
   <div class="footer">
     <router-link to="/quiz"
-                 class="button">Go ›</router-link>
+                 class="button">Go&nbsp;<ChevronRightIcon class="icon"/></router-link>
   </div>
 </div>
 
 </template>
 
 <script>
+import TrophyIcon from '../../asset/trophy.svg';
+import ChevronRightIcon from '../../asset/chevron-right.svg';
+
 export default {
   name: 'HomePage',
+  components: {
+    TrophyIcon,
+    ChevronRightIcon
+  },
   data() {
     return {
       globalState: store.state,

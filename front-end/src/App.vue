@@ -73,12 +73,19 @@ body {
   background: #191919;
 }
 
+.icon {
+  width: 1em;
+  height: 1em;
+  fill: #fff;
+}
+
 button,
 .button {
-  display: inline-block;
+  &:extend(.content-hv-center);
   border: solid .2em #ddd;
   border-radius: .4em;
   background: transparent;
+  font-size: 1em;
   outline: 0;
   padding: .5em 1em;
   cursor: pointer;
@@ -89,6 +96,10 @@ button,
     &:extend(.active-button);
     transform: translateY(.1em);
   }
+  &.icon-button {
+    border: 0;
+    padding: .2em .3em;
+  }
 }
 
 .active-button {
@@ -98,9 +109,20 @@ button,
 }
 
 body.has-hover {
-  button:hover,
-  .button:hover {
-    &:extend(.active-button);
+  button,
+  .button {
+    &:hover {
+      &:extend(.active-button);
+      .icon {
+        fill: #000;
+      }
+    }
+    &.icon-button:hover {
+      background: #343436;
+      .icon {
+        fill: #fff;
+      }
+    }
   }
 }
 
