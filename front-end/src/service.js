@@ -6,6 +6,10 @@ import util from './util'
 const backendUrl = 'http://localhost:3000'
 var loginDeferred = P.pending()
 
+function post(url, params) {
+  return axios.post(backendUrl + url, params)
+}
+
 function authPost(url, params) {
   return loginDeferred.promise.then(token => {
     return axios.post(backendUrl + url, { params: params, token: token })
@@ -44,7 +48,7 @@ function wechatLogin() {
 function wechatUserInfo() {
   return loginDeferred.promise.then(token => {
     return authPost('/wechat/userinfo', {
-        openid: token.openid
+        openid: token.wechatOpenId
       })
       .then(res => {
         debug.log('wechatUserInfo', res)

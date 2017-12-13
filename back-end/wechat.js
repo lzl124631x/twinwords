@@ -16,6 +16,13 @@ var UserSchema = new Schema({
 })
 
 UserSchema.statics.findOneOrCreate = findOneOrCreate
+UserSchema.set('toJSON', {
+     transform: function (doc, ret, options) {
+         ret.id = ret._id;
+         delete ret._id;
+         delete ret.__v;
+     }
+}); 
 
 var User = mongoose.model('User', UserSchema)
 exports.User = User
@@ -75,9 +82,8 @@ exports.wechatAPI = (app) => {
       }
 
       wechat.updateOAuth(result.data)
-      wechat.getUser(result.data.openid, (err, user) => {
-        result.data.id = user.id
-        res.json(result.data)
+      wechat.getUser(result.data.openid).then(user => {
+        res.json(user)
       })
     })
   })

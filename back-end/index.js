@@ -28,8 +28,8 @@ var RecordSchema = new Schema({
 RecordSchema.statics.findOneOrCreate = findOneOrCreate
 var Record = mongoose.model('Record', RecordSchema)
 
-function verifyUser(id) {
-  return User.findOne({ _id: id }).then(user => {
+function verifyUser(token, res) {
+  return User.findOne({ _id: token.id }).then(user => {
     if (!user) {
       var msg = `No user with id: ${token.id}`
       console.log(msg)
@@ -42,7 +42,7 @@ function verifyUser(id) {
 
 app.post('/quiz', (req, res) => {
   var token = req.body.token
-  verifyUser(token.id).then(user => {
+  verifyUser(token, res).then(user => {
     var data = quiz.getQuizzes()
     res.send(data)
   })
@@ -80,7 +80,7 @@ app.post('/uploadrecord', (req, res) => {
 
 app.post('/bestrecord', (req, res) => {
   var token = req.body.token
-  verifyUser(token.id).then(user => {
+  verifyUser(token, res).then(user => {
     return findRecordByUserId(token.id)
   }).then(record => {
     res.send(record)
@@ -90,7 +90,7 @@ app.post('/bestrecord', (req, res) => {
 app.post('/ranking', (req, res) => {
   var token = req.body.token
   var limit = req.body.params.limit
-  verifyUser(token.id).then(user => {
+  verifyUser(token, res).then(user => {
     return getUserRankAndRankList(token.id, limit)
   }).then(ranking => {
     console.log('ranking', ranking)

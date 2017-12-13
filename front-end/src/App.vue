@@ -73,7 +73,8 @@ body {
   background: #191919;
 }
 
-button, .button {
+button,
+.button {
   display: inline-block;
   border: solid .2em #ddd;
   border-radius: .4em;
@@ -97,6 +98,7 @@ button, .button {
 }
 
 body.has-hover {
+  button:hover,
   .button:hover {
     &:extend(.active-button);
   }
@@ -109,8 +111,7 @@ body.has-hover {
     margin: 1em;
     flex: 1;
   }
-
-  .button + .button {
+  .button+.button {
     margin-left: 0;
   }
 }
@@ -161,7 +162,7 @@ body.has-hover {
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0,0,0,.7);
+  background: rgba(0, 0, 0, .7);
 }
 
 .flex-row {
