@@ -2,14 +2,20 @@
 <div class="page"
      v-if="quizzes">
   <div class="header">
-    <button class="icon-button" v-on:click="quit"><TimesIcon class="icon icon-close"/></button>
-    <div class="quiz-progress">{{ `${curQuizIndex + 1} / ${quizzes.length}`}}</div>
-    <div class="lives">
-      <HeartIcon class="icon icon-heart" v-for="life in maxLives"
-          v-bind:class="{ off: life > lives }"/>
+    <button class="icon-button"
+            v-on:click="quit">
+      <TimesIcon class="icon icon-close" />
+    </button>
+    <div class="lives content-hv-center">
+      <HeartIcon class="icon icon-heart"
+                 v-for="life in maxLives"
+                 v-bind:class="{ off: life > lives }" />
     </div>
   </div>
-  <div class="quiz content conteng-hv-center">{{ curQuiz.q }}</div>
+  <div class="content conteng-hv-center">
+    <div class="quiz-progress">{{ `${curQuizIndex + 1} / ${quizzes.length}`}}</div>
+    <div class="quiz">{{ curQuiz.q }}</div>
+  </div>
   <ul class="options footer"
       v-bind:class="{ taken: chosen != '' }">
     <li v-for="option in curQuiz.options"
@@ -28,9 +34,9 @@
 </template>
 
 <script>
-import service from '../service'
-import TimesIcon from '../../asset/times.svg'
-import HeartIcon from '../../asset/heart.svg'
+import service from '../service';
+import TimesIcon from '../../asset/times.svg';
+import HeartIcon from '../../asset/heart.svg';
 
 export default {
   name: 'QuizPage',
@@ -100,25 +106,14 @@ export default {
 </script>
 
 <style scoped="" lang="less">
-ul {
-  list-style: none;
-}
-
 .header {
   text-align: left;
   display: flex;
   align-items: center;
-  padding: 0 .5em;
-
-
-  .quiz-progress {
-    flex: 1;
-    text-align: center;
-    font-size: .6em;
-    color: #999;
-  }
+  justify-content: space-between;
+  padding: .3em .5em;
   .lives {
-    display: inline-block;
+    float: right;
     .icon.icon-heart {
       fill: #f05458;
       margin: .3em;
@@ -129,8 +124,18 @@ ul {
   }
 }
 
-.quiz {
+.content {
   padding: 2em 1em 1em;
+}
+
+.quiz-progress {
+  text-align: center;
+  font-size: .6em;
+  color: #999;
+  margin-bottom: 1em;
+}
+
+.quiz {
   font-size: 1.2em;
   font-weight: bold;
 }

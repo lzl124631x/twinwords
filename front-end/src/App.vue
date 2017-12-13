@@ -126,6 +126,15 @@ body.has-hover {
   }
 }
 
+.header {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .3em .5em;
+}
+
+
 .footer {
   width: 100%;
   display: flex;
