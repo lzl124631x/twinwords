@@ -3,7 +3,7 @@ import axios from 'axios'
 import cache from './cache'
 import util from './util'
 
-const backendUrl = 'http://localhost:80/api'
+const backendUrl = '/api'
 var loginDeferred = P.pending()
 
 function post(url, params) {
