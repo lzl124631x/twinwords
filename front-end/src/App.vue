@@ -91,14 +91,17 @@ button,
   cursor: pointer;
   color: #fff;
   text-decoration: none;
-  transition: transform .15s ease-in-out, background .15s ease-in-out;
+  transition: transform .15s ease-in-out, background .15s ease-in-out, color .15s ease-in-out;
   &:active {
-    &:extend(.active-button);
+    &:extend(.active-button all);
     transform: translateY(.1em);
   }
   &.icon-button {
     border: 0;
     padding: .2em .3em;
+    &:active {
+      &:extend(.active-icon-button all);
+    }
   }
 }
 
@@ -106,6 +109,16 @@ button,
   background: #fff;
   border-color: #fff;
   color: #000;
+  .icon {
+    fill: #000;
+  }
+}
+
+.active-icon-button {
+  background: #343436;
+  .icon {
+    fill: #fff;
+  }
 }
 
 body.has-hover {
@@ -118,10 +131,7 @@ body.has-hover {
       }
     }
     &.icon-button:hover {
-      background: #343436;
-      .icon {
-        fill: #fff;
-      }
+      &:extend(.active-icon-button all);
     }
   }
 }
@@ -133,7 +143,6 @@ body.has-hover {
   justify-content: space-between;
   padding: .3em .5em;
 }
-
 
 .footer {
   width: 100%;
