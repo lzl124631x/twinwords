@@ -89,8 +89,11 @@ export default {
   display: flex;
   >div {
     flex: 1;
+    padding: .2em 0;
+    border-bottom: .2em solid #555;
     &:not(.active) {
-      color: #999;
+      color: #555;
+      border-color: transparent;
     }
   }
 }

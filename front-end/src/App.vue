@@ -207,7 +207,7 @@ body.has-hover {
     content: " ";
     display: block;
     width: 100%;
-    border-top: 1px solid #999;
+    border-top: 1px solid #555;
     margin: .5em 0;
   }
 }
