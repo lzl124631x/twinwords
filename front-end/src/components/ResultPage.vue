@@ -18,7 +18,7 @@
         </div>
         <div class="tab-content body">
           <div v-bind:class="{ active: activeTabIndex === 0 }">
-            <ul v-if="globalState.history">
+            <ul v-if="globalState.history" class="gray-text">
               <li v-for="entry in globalState.history"
                   class="flex-row history-row">
                 <span class="no-flex content-hv-center">
@@ -41,9 +41,9 @@
   </div>
   <div class="footer">
     <a v-on:click="restart"
-       class="button"><RedoIcon class="icon"/>&nbsp;Restart</a>
+       class="button dark primary"><RedoIcon class="icon"/>&nbsp;Restart</a>
     <a v-on:click="backHome"
-       class="button"><HomeIcon class="icon"/>&nbsp;Home</a>
+       class="button dark"><HomeIcon class="icon"/>&nbsp;Home</a>
   </div>
 </div>
 

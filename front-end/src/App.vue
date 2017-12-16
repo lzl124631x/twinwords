@@ -91,7 +91,7 @@ button,
   cursor: pointer;
   color: #fff;
   text-decoration: none;
-  transition: transform .15s ease-in-out, background .15s ease-in-out, color .15s ease-in-out;
+  transition: all .15s ease-in-out;
   &:active {
     &:extend(.active-button all);
     transform: translateY(.1em);
@@ -106,6 +106,15 @@ button,
   &.icon-button {
     padding: .2em .3em;
   }
+  &.dark {
+    border-color: #444;
+    &.primary {
+      background: #444;
+      &:active {
+        &:extend(.active-button all);
+      }
+    }
+  }
 }
 
 .active-button {
@@ -118,7 +127,7 @@ button,
 }
 
 .active-icon-button {
-  background: #343436;
+  background: #444;
   color: #fff;
   .icon {
     fill: #fff;
@@ -208,7 +217,7 @@ body.has-hover {
   flex-direction: column;
 }
 
-.msg {
+.gray-text {
   color: #999;
 }
 

@@ -28,7 +28,7 @@
 </div>
 <div class="page content-hv-center"
      v-else>
-  <div class="msg">LOADING</div>
+  <div class="gray-text">LOADING</div>
 </div>
 
 </template>

@@ -6,7 +6,7 @@
     <span class="correct-num">{{ globalState.record.correctNum }}</span>
   </div>
   <div class="leaderboard">
-    <ul v-if="globalState.ranking">
+    <ul v-if="globalState.ranking" class="gray-text">
       <li v-for="(rank, index) in globalState.ranking"
           class="flex-row rank-row">
         <span class="rank-num no-flex">{{ index + 1 }}</span>
