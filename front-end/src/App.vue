@@ -161,6 +161,10 @@ body.has-hover {
   }
 }
 
+.content + .footer .button {
+  margin-top: 0;
+}
+
 .card:extend(.v-flex) {
   background-color: #3b3b3b;
   border-radius: .3em;
@@ -199,6 +203,7 @@ body.has-hover {
 .modal {
   position: fixed;
   width: 80%;
+  height: 80%;
 }
 
 .modal-backdrop {

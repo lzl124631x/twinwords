@@ -5,14 +5,16 @@
     <span class="name">{{ globalState.user && globalState.user.name }}</span>
     <span class="correct-num">{{ globalState.record.correctNum }}</span>
   </div>
-  <ul v-if="globalState.ranking">
-    <li v-for="(rank, index) in globalState.ranking"
-        class="flex-row rank-row">
-      <span class="rank-num no-flex">{{ index + 1 }}</span>
-      <span class="name">{{ rank.user && rank.user.name }}</span>
-      <span class="correct-num">{{ rank.correctNum }}</span>
-    </li>
-  </ul>
+  <div class="leaderboard">
+    <ul v-if="globalState.ranking">
+      <li v-for="(rank, index) in globalState.ranking"
+          class="flex-row rank-row">
+        <span class="rank-num no-flex">{{ index + 1 }}</span>
+        <span class="name">{{ rank.user && rank.user.name }}</span>
+        <span class="correct-num">{{ rank.correctNum }}</span>
+      </li>
+    </ul>
+  </div>
   <button class="btn-refresh-rank secondary-button" v-on:click="refreshRanking"><RedoIcon class="icon"/>&nbsp;Refresh</button>
 </div>
 
@@ -43,7 +45,8 @@ export default {
 <style scoped="" lang="less">
 .rank-list {
   height: 100%;
-  ul {
+  .leaderboard {
+    overflow: auto;
     flex: 1;
   }
 }
