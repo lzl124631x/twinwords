@@ -4,7 +4,7 @@
   <div class="header">
     <button class="icon-button"
             v-on:click="quit">
-      <TimesIcon class="icon icon-close" />
+      <TimesIcon class="icon" />
     </button>
     <div class="lives content-hv-center">
       <HeartIcon class="icon icon-heart"

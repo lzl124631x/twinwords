@@ -3,7 +3,7 @@
   <div class="content v-flex">
     <div class="card">
       <div class="section scoreboard">
-        <div class="title">Scoreboard</div>
+        <div class="header">Scoreboard</div>
         <div class="body">
           <div>{{ `Correct: ${globalState.correctNum}`}}</div>
           <div>{{ `Best: ${globalState.record.correctNum}`}}</div>

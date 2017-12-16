@@ -26,7 +26,12 @@
          v-if="modalOpen"></div>
     <div class="modal card"
          v-if="modalOpen">
-      <div class="title">Ranking</div>
+      <div class="header">
+        <button class="icon-button" v-on:click="closeModal">
+          <TimesIcon class="icon"/>
+        </button>
+        <div class="title">Ranking</div>
+      </div>
       <div class="body">
         <rank-list></rank-list>
       </div>
@@ -45,12 +50,14 @@
 
 <script>
 import TrophyIcon from '../../asset/trophy.svg';
+import TimesIcon from '../../asset/times.svg';
 import ChevronRightIcon from '../../asset/chevron-right.svg';
 
 export default {
   name: 'HomePage',
   components: {
     TrophyIcon,
+    TimesIcon,
     ChevronRightIcon
   },
   data() {

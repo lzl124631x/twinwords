@@ -141,23 +141,25 @@ body.has-hover {
   }
 }
 
-.header {
-  text-align: left;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: .3em .5em;
-}
-
-.footer {
-  width: 100%;
-  display: flex;
-  .button {
-    margin: 1em;
-    flex: 1;
+.page {
+  >.header {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .3em .5em;
   }
-  .button+.button {
-    margin-left: 0;
+
+  >.footer {
+    width: 100%;
+    display: flex;
+    .button {
+      margin: 1em;
+      flex: 1;
+    }
+    .button+.button {
+      margin-left: 0;
+    }
   }
 }
 
@@ -169,8 +171,18 @@ body.has-hover {
   background-color: #3b3b3b;
   border-radius: .3em;
   padding: .5em;
-  .title {
+  .header {
+    position: relative;
     margin-bottom: .5em;
+    .title {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      text-align: center;
+      width: 100%;
+    }
   }
   .body {
     overflow: auto;
