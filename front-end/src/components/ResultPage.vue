@@ -9,7 +9,7 @@
           <div>{{ `Best: ${globalState.record.correctNum}`}}</div>
         </div>
       </div>
-      <div class="section">
+      <div class="section history-and-rank">
         <div class="tabs title">
           <div v-bind:class="{ active: activeTabIndex === 0 }"
                v-on:click="changeTab(0)">History</div>
@@ -99,6 +99,7 @@ export default {
   display: none;
   &.active {
     display: block;
+    height: 100%;
   }
 }
 
@@ -111,6 +112,10 @@ export default {
       font-size: .8em;
     }
   }
+}
+
+.section.history-and-rank {
+  flex: 1;
 }
 
 .content {

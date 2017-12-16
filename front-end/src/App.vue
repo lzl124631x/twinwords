@@ -87,7 +87,7 @@ button,
   background: transparent;
   font-size: 1em;
   outline: 0;
-  padding: .5em 1em;
+  padding: .5em;
   cursor: pointer;
   color: #fff;
   text-decoration: none;
@@ -96,12 +96,15 @@ button,
     &:extend(.active-button all);
     transform: translateY(.1em);
   }
-  &.icon-button {
+  &.icon-button,
+  &.secondary-button {
     border: 0;
-    padding: .2em .3em;
     &:active {
       &:extend(.active-icon-button all);
     }
+  }
+  &.icon-button {
+    padding: .2em .3em;
   }
 }
 
@@ -116,6 +119,7 @@ button,
 
 .active-icon-button {
   background: #343436;
+  color: #fff;
   .icon {
     fill: #fff;
   }
@@ -130,7 +134,8 @@ body.has-hover {
         fill: #000;
       }
     }
-    &.icon-button:hover {
+    &.icon-button:hover,
+    &.secondary-button:hover {
       &:extend(.active-icon-button all);
     }
   }
