@@ -7,6 +7,7 @@ const { wechatAPI, User } = require('./wechat')
 const mongoose = require('mongoose')
 const P = require('bluebird')
 const { findOneOrCreate } = require('./util')
+var router = express.Router();
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -16,7 +17,7 @@ mongoose.connect('mongodb://localhost:27017')
 mongoose.Promise = require('bluebird')
 var Schema = mongoose.Schema
 
-wechatAPI(app)
+wechatAPI(router)
 
 var RecordSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -40,7 +41,9 @@ function verifyUser(token, res) {
   })
 }
 
-app.post('/quiz', (req, res) => {
+router.get('/', (req, res) => { res.send("Hi") })
+
+router.post('/quiz', (req, res) => {
   var token = req.body.token
   verifyUser(token, res).then(user => {
     var data = quiz.getQuizzes()
@@ -48,20 +51,20 @@ app.post('/quiz', (req, res) => {
   })
 })
 
-app.post('/test/login', (req, res) => {
+router.post('/test/login', (req, res) => {
   res.json({
     id: 1234,
     token: 1234
   })
 })
 
-app.post('/test/userinfo', (req, res) => {
+router.post('/test/userinfo', (req, res) => {
   res.json({
     name: 'ricl'
   })
 })
 
-app.post('/uploadrecord', (req, res) => {
+router.post('/uploadrecord', (req, res) => {
   var token = req.body.token
   var newRecord = req.body.params
   findRecordByUserId(token.id).then(record => {
@@ -78,7 +81,7 @@ app.post('/uploadrecord', (req, res) => {
   })
 })
 
-app.post('/bestrecord', (req, res) => {
+router.post('/bestrecord', (req, res) => {
   var token = req.body.token
   verifyUser(token, res).then(user => {
     return findRecordByUserId(token.id)
@@ -87,7 +90,7 @@ app.post('/bestrecord', (req, res) => {
   })
 })
 
-app.post('/ranking', (req, res) => {
+router.post('/ranking', (req, res) => {
   var token = req.body.token
   var limit = req.body.params.limit
   verifyUser(token, res).then(user => {
@@ -130,4 +133,5 @@ function getUserRank(userId) {
   })
 }
 
+app.use('/api', router);
 app.listen(3000, () => console.log('twinword listening on port 3000!'))

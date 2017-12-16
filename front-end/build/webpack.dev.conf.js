@@ -28,11 +28,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       errors: true,
     } : false,
     publicPath: config.dev.assetsPublicPath,
-    proxy: config.dev.proxyTable,
+    proxy: config.dev.proxyTable, // Proxy for API calls.
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }
+    },
+    stats: { colors: true }, // Show colored text in console.
+    progress: false // Display progress (percentage) message.
   },
   plugins: [
     new webpack.DefinePlugin({

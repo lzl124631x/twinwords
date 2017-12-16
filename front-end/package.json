@@ -5,7 +5,7 @@
   "author": "Richard Liu <liuzhenglaichn@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "jest test/unit/specs --coverage",
     "e2e": "node test/e2e/runner.js",
@@ -17,7 +17,7 @@
     "axios": "^0.17.1",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
-    "vue": "^2.5.2",
+    "vue": "^2.5.11",
     "vue-router": "^3.0.1",
     "wechat-oauth": "^1.2.1",
     "whatwg-fetch": "^2.0.3"
@@ -69,10 +69,10 @@
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-svg-loader": "^0.4.0",
-    "vue-template-compiler": "^2.5.9",
+    "vue-template-compiler": "^2.5.11",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.9.1",
+    "webpack-dev-server": "^2.9.7",
     "webpack-merge": "^4.1.0"
   },
   "jest": {
