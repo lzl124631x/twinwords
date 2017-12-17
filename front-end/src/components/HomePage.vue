@@ -5,30 +5,17 @@
             v-on:click="openModal">
       <TrophyIcon class="icon" />
     </button>
-    <div class="dashboard">
-      <div class="greeting"
-           v-if="globalState.user.name">
-        {{ `Hi, ${globalState.user.name}` }}
-      </div>
-      <div class="best-record"
-           v-if="globalState.record.correctNum !== undefined">
-        {{ `Best: ${globalState.record.correctNum}` }}
-      </div>
-      <div class="my-rank"
-           v-if="globalState.myRank !== undefined">
-        {{ `Rank: ${globalState.myRank + 1}`}}
-      </div>
-    </div>
   </div>
-  <div class="content content-hv-center">
+  <div class="content">
     <div class="modal-backdrop"
          v-on:click="closeModal"
          v-if="modalOpen"></div>
     <div class="modal card"
          v-if="modalOpen">
       <div class="header">
-        <button class="icon-button" v-on:click="closeModal">
-          <TimesIcon class="icon"/>
+        <button class="icon-button"
+                v-on:click="closeModal">
+          <TimesIcon class="icon" />
         </button>
         <div class="title">Ranking</div>
       </div>
@@ -36,7 +23,24 @@
         <rank-list></rank-list>
       </div>
     </div>
-    <h1>Twin<br/>Words</h1>
+    <div>
+      <h1>Twin Words</h1>
+      <h2 class="gray-text">How good are you at <br/>distinguishing commonly confused words?</h2>
+      <table class="my-score">
+        <tr>
+          <th>Player</th>
+          <td v-if="globalState.user.name">{{ globalState.user.name }}</td>
+        </tr>
+        <tr>
+          <th>Best Score</th>
+          <td v-if="globalState.record.correctNum !== undefined">{{ globalState.record.correctNum }}</td>
+        </tr>
+        <tr>
+          <th>Rank</th>
+          <td v-if="globalState.myRank !== undefined">{{ globalState.myRank + 1 }}</td>
+        </tr>
+      </table>
+    </div>
   </div>
   <div class="footer">
     <router-link to="/quiz"
@@ -79,7 +83,35 @@ export default {
 </script>
 
 <style scoped="" lang="less">
-.dashboard {
+h1 {
+  font-size: 1.8em;
+}
+
+h2 {
+  font-size: .5em;
+  font-weight: normal;
+}
+
+.content {
+  padding: 10% 1em 0;
+}
+
+.my-score {
+  margin-top: 5em;
   font-size: .6em;
+  width: 100%;
+  table-layout: fixed;
+  th,
+  td {
+    padding: 0 .8em;
+  }
+  th {
+    font-weight: normal;
+    color: #999;
+    text-align: right;
+  }
+  td {
+    text-align: left;
+  }
 }
 </style>
