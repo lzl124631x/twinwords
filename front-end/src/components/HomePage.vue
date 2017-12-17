@@ -10,17 +10,19 @@
     <div class="modal-backdrop"
          v-on:click="closeModal"
          v-if="modalOpen"></div>
-    <div class="modal card"
-         v-if="modalOpen">
-      <div class="header">
-        <button class="icon-button"
-                v-on:click="closeModal">
-          <TimesIcon class="icon" />
-        </button>
-        <div class="title">Ranking</div>
-      </div>
-      <div class="body">
-        <rank-list></rank-list>
+    <div class="modal-container"
+           v-if="modalOpen">
+      <div class="modal card">
+        <div class="header">
+          <button class="icon-button"
+                  v-on:click="closeModal">
+            <TimesIcon class="icon" />
+          </button>
+          <div class="title">Ranking</div>
+        </div>
+        <div class="body">
+          <rank-list></rank-list>
+        </div>
       </div>
     </div>
     <div>

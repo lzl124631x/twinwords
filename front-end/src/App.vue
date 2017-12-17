@@ -221,10 +221,22 @@ body.has-hover {
   color: #999;
 }
 
-.modal {
+.modal-container {
   position: fixed;
-  width: 80%;
-  height: 80%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  .modal {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+  }
 }
 
 .modal-backdrop {
