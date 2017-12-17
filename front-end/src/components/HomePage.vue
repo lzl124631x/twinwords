@@ -31,15 +31,15 @@
       <table class="my-score">
         <tr>
           <th>Player</th>
-          <td v-if="globalState.user.name">{{ globalState.user.name }}</td>
+          <td>{{ globalState.user.name || '' }}</td>
         </tr>
         <tr>
           <th>Best Score</th>
-          <td v-if="globalState.record.correctNum !== undefined">{{ globalState.record.correctNum }}</td>
+          <td>{{ globalState.record.correctNum !== undefined ? globalState.record.correctNum : '' }}</td>
         </tr>
         <tr>
           <th>Rank</th>
-          <td v-if="globalState.myRank !== undefined">{{ globalState.myRank + 1 }}</td>
+          <td>{{ globalState.myRank !== undefined ? globalState.myRank + 1 : '' }}</td>
         </tr>
       </table>
     </div>
