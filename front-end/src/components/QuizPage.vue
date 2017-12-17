@@ -1,6 +1,10 @@
 <template>
 <div class="page"
      v-if="quizzes">
+  <div class="countdown">
+    <div class="time-left"
+         v-bind:class="{ running: timer !== null }"></div>
+  </div>
   <div class="header">
     <button class="icon-button"
             v-on:click="quit">
@@ -25,6 +29,9 @@
       {{ option }}
     </li>
   </ul>
+  <div class="timeup-backdrop content-hv-center" v-if="isTimeUp">
+    TIME UP!
+  </div>
 </div>
 <div class="page content-hv-center"
      v-else>
@@ -50,7 +57,9 @@ export default {
       curQuizIndex: 0,
       maxLives: 3,
       lives: 3,
-      chosen: ''
+      chosen: '',
+      timer: null,
+      isTimeUp: false
     }
   },
   computed: {
@@ -63,8 +72,17 @@ export default {
   },
   mounted() {
     store.reset()
+    this.timer = null
+    this.isTimeUp = false
     var self = this
-    service.getQuizzes().then(quizzes => self.quizzes = quizzes)
+    service.getQuizzes().then(quizzes => {
+      self.quizzes = quizzes
+      setTimeout(() => {// NOTE: this is to force transition. Looking for better solution.
+        self.timer = setTimeout(() => {
+          self.timeup()
+        }, 60000)
+      }, 10)
+    })
   },
   methods: {
     next(option) {
@@ -78,27 +96,44 @@ export default {
         this.chosen = ''
         if ((wrong && this.lives === 0)
           || this.curQuizIndex + 1 === this.quizzes.length) {
-          service.uploadRecord({
-            correctNum: store.state.correctNum
-          })
-            .then(() => {
-              service.ranking().then(ranking => store.updateRanking(ranking))
-            })
-          if (store.state.correctNum > store.state.record.correctNum) {
-            store.updateBestRecord({
-              correctNum: store.state.correctNum
-            })
-          }
-          this.$router.push({
-            name: 'result'
-          })
+          this.end()
         } else {
           this.curQuizIndex++
         }
-      }, 500)
+      }, 300)
     },
     quit() {
+      this.clearTimer()
       this.$router.go(-1)
+    },
+    timeup() {
+      this.isTimeUp = true
+      setTimeout(() => {
+        this.end()
+      }, 2000)
+    },
+    end() {
+      this.clearTimer()
+      service.uploadRecord({
+        correctNum: store.state.correctNum
+      })
+        .then(() => {
+          service.ranking().then(ranking => store.updateRanking(ranking))
+        })
+      if (store.state.correctNum > store.state.record.correctNum) {
+        store.updateBestRecord({
+          correctNum: store.state.correctNum
+        })
+      }
+      this.$router.push({
+        name: 'result'
+      })
+    },
+    clearTimer() {
+      if (this.timer !== null) {
+        clearTimeout(this.timer)
+        this.timer = null
+      }
     }
   }
 }
@@ -106,6 +141,20 @@ export default {
 </script>
 
 <style scoped="" lang="less">
+.countdown {
+  height: .2em;
+  background: #444;
+  .time-left {
+    background: #999;
+    width: 100%;
+    height: 100%;
+    &.running {
+      width: 0;
+      transition: width 60s linear;
+    }
+  }
+}
+
 .header {
   text-align: left;
   display: flex;
@@ -162,5 +211,16 @@ export default {
       }
     }
   }
+}
+
+.timeup-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, .7);
+  padding: 1em;
+  font-size: 2em;
 }
 </style>
