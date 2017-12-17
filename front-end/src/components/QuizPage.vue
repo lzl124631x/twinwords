@@ -29,8 +29,11 @@
       {{ option }}
     </li>
   </ul>
-  <div class="timeup-backdrop content-hv-center" v-if="isTimeUp">
+  <div class="backdrop content-hv-center" v-if="isTimeUp">
     TIME UP!
+  </div>
+  <div class="backdrop content-hv-center" v-if="lives === 0">
+    GAME OVER!
   </div>
 </div>
 <div class="page content-hv-center"
@@ -96,7 +99,7 @@ export default {
         this.chosen = ''
         if ((wrong && this.lives === 0)
           || this.curQuizIndex + 1 === this.quizzes.length) {
-          this.end()
+          this.gameover()
         } else {
           this.curQuizIndex++
         }
@@ -108,6 +111,11 @@ export default {
     },
     timeup() {
       this.isTimeUp = true
+      setTimeout(() => {
+        this.end()
+      }, 2000)
+    },
+    gameover() {
       setTimeout(() => {
         this.end()
       }, 2000)
@@ -214,13 +222,13 @@ export default {
   }
 }
 
-.timeup-backdrop {
+.backdrop {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: rgba(0, 0, 0, .7);
+  background: rgba(0, 0, 0, .85);
   padding: 1em;
   font-size: 2em;
 }
