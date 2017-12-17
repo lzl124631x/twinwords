@@ -4,7 +4,7 @@ const app = express()
 
 app.use(express.static('dist'))
 
-var apiUrl = 'http://localhost:3000'
+var apiUrl = 'http://localhost:3000/api'
 app.use('/api', function(req, res) {
   var url = apiUrl + req.url;
   req.pipe(request(url)).pipe(res);
