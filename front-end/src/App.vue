@@ -229,6 +229,7 @@ body.has-hover {
   right: 0;
   bottom: 0;
   left: 0;
+  pointer-events: none;
   .modal {
     position: absolute;
     width: 80%;
