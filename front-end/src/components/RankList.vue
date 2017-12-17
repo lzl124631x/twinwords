@@ -74,6 +74,6 @@ export default {
 
 .btn-refresh-rank {
   width: 100%;
-  font-size: .8em;
+  font-size: 1em;
 }
 </style>
