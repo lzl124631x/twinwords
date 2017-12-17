@@ -165,7 +165,8 @@ export default {
     float: right;
     .icon.icon-heart {
       fill: #f05458;
-      margin: .3em;
+      margin: .2em;
+      font-size: 1.5em;
       &.off {
         fill: #333;
       }
@@ -179,13 +180,13 @@ export default {
 
 .quiz-progress {
   text-align: center;
-  font-size: .6em;
+  font-size: .7em;
   color: #999;
   margin-bottom: 1em;
 }
 
 .quiz {
-  font-size: 1.2em;
+  font-size: 1.5em;
   font-weight: bold;
 }
 

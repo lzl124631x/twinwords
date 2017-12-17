@@ -52,19 +52,19 @@ export default {
 }
 .rank-row {
   .rank-num {
-    font-size: .6em;
+    font-size: 1em;
   }
   &:nth-child(1) .rank-num {
     color: gold;
-    font-size: 1em;
+    font-size: 1.5em;
   }
   &:nth-child(2) .rank-num {
     color: silver;
-    font-size: .8em;
+    font-size: 1.3em;
   }
   &:nth-child(3) .rank-num {
     color: #cd7f32;
-    font-size: .7em;
+    font-size: 1.1em;
   }
 }
 

@@ -5,8 +5,13 @@
       <div class="section scoreboard">
         <div class="header">Scoreboard</div>
         <div class="body">
-          <div>{{ `Correct: ${globalState.correctNum}`}}</div>
-          <div>{{ `Best: ${globalState.record.correctNum}`}}</div>
+          <div>
+            <span class="label gray-text">Correct</span>
+            <span class="value">{{globalState.correctNum}}</span></div>
+          <div>
+            <span class="label gray-text">Best</span>
+            <span class="value">{{globalState.record.correctNum}}</span>
+          </div>
         </div>
       </div>
       <div class="section history-and-rank">
@@ -40,10 +45,14 @@
     </div>
   </div>
   <div class="footer">
-    <a v-on:click="restart"
-       class="button dark primary"><RedoIcon class="icon"/>&nbsp;Restart</a>
-    <a v-on:click="backHome"
-       class="button dark"><HomeIcon class="icon"/>&nbsp;Home</a>
+    <div class="col">
+      <a v-on:click="restart"
+         class="button dark primary"><RedoIcon class="icon"/>&nbsp;Restart</a>
+    </div>
+    <div class="col">
+      <a v-on:click="backHome"
+         class="button dark"><HomeIcon class="icon"/>&nbsp;Home</a>
+    </div>
   </div>
 </div>
 
@@ -89,7 +98,8 @@ export default {
   display: flex;
   >div {
     flex: 1;
-    padding: .2em 0;
+    font-size: 1.1em;
+    padding: .4em 0;
     border-bottom: .2em solid #555;
     &:not(.active) {
       color: #555;
@@ -110,9 +120,12 @@ export default {
   flex: none;
   .body {
     display: flex;
+    padding: .5em 0;
     div {
       flex: 1;
-      font-size: .8em;
+      .value {
+        font-size: 1.2em;
+      }
     }
   }
 }
@@ -136,7 +149,6 @@ export default {
   .zh {
     flex: 2;
     text-align: left;
-    font-size: .8em;
   }
   .icon {
     &.correct {

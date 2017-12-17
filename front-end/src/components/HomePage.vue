@@ -45,10 +45,12 @@
     </div>
   </div>
   <div class="footer">
-    <router-link to="/quiz"
-                 class="button">Go&nbsp;
-      <ChevronRightIcon class="icon" />
-    </router-link>
+    <div class="col">
+      <router-link to="/quiz"
+               class="button">Go&nbsp;
+        <ChevronRightIcon class="icon" />
+      </router-link>
+    </div>
   </div>
 </div>
 
@@ -86,11 +88,11 @@ export default {
 
 <style scoped="" lang="less">
 h1 {
-  font-size: 1.8em;
+  font-size: 2.5em;
 }
 
 h2 {
-  font-size: .5em;
+  font-size: 1em;
   font-weight: normal;
 }
 
@@ -100,7 +102,6 @@ h2 {
 
 .my-score {
   margin-top: 5em;
-  font-size: .6em;
   width: 100%;
   table-layout: fixed;
   th,

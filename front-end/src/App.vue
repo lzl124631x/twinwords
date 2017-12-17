@@ -59,7 +59,6 @@ body {
   color: #2c3e50;
   background: #fff;
   overflow: hidden;
-  font-size: 1.5em;
   .page:extend(.v-flex) {
     height: 100%;
     .content {
@@ -85,7 +84,7 @@ button,
   border: solid .2em #ddd;
   border-radius: .4em;
   background: transparent;
-  font-size: 1em;
+  font-size: 1.5em;
   outline: 0;
   padding: .5em;
   cursor: pointer;
@@ -160,20 +159,22 @@ body.has-hover {
   }
 
   >.footer {
-    width: 100%;
     display: flex;
-    .button {
-      margin: 1em;
+    padding: 1em;
+    margin: 0 -.5em;
+    > .col {
+      padding: 0 .5em;
       flex: 1;
-    }
-    .button+.button {
-      margin-left: 0;
+      .button {
+        width: 100%;
+        box-sizing: border-box;
+      }
     }
   }
 }
 
-.content + .footer .button {
-  margin-top: 0;
+.content + .footer {
+  padding-top: 0;
 }
 
 .card:extend(.v-flex) {
@@ -183,6 +184,7 @@ body.has-hover {
   .header {
     position: relative;
     margin-bottom: .5em;
+    font-size: 1.1em;
     .title {
       position: absolute;
       left: 0;
@@ -251,7 +253,7 @@ body.has-hover {
 .flex-row {
   display: flex;
   align-items: center;
-  padding: .3em 0;
+  padding: .4em 0;
   >span {
     flex: 1;
     padding: 0 .25em;
