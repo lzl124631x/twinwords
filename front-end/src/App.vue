@@ -183,7 +183,7 @@ body.has-hover {
   padding: .5em;
   .header {
     position: relative;
-    margin-bottom: .5em;
+    margin: .5em 0;
     font-size: 1.1em;
     .title {
       position: absolute;
