@@ -27,6 +27,7 @@ function getTuples(db, words, num) {
 
 function generateQuizzes(tuples, dict) {
   return tuples.map(tuple => {
+    shuffle(tuple)
     var index = util.getRandomInt(0, tuple.length)
     var key = tuple[index]
     var q = dict[key]
@@ -36,4 +37,15 @@ function generateQuizzes(tuples, dict) {
       key: key
     }
   })
+}
+
+function shuffle(array) {
+  for (var i = array.length - 1; i > 0; --i) {
+    var index = util.getRandomInt(0, i + 1)
+    if (index != i) {
+      var tmp = array[i]
+      array[i] = array[index]
+      array[index] = tmp
+    }
+  }
 }
