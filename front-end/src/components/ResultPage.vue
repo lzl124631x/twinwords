@@ -85,15 +85,25 @@ export default {
 <style scoped="" lang="less">
 .tabs {
   display: flex;
+  margin-bottom: .5em;
+  justify-content: center;
   >div {
-    flex: 1;
-    font-size: 1.1em;
-    padding: .4em 0;
-    border-bottom: .2em solid #555;
+    font-size: .8em;
+    padding: .4em .8em;
     cursor: pointer;
-    &:not(.active) {
-      color: #555;
-      border-color: transparent;
+    border: .2em solid #444;
+    color: #555;
+    &:first-child {
+      border-top-left-radius: .4em;
+      border-bottom-left-radius: .4em;
+    }
+    &:last-child {
+      border-top-right-radius: .4em;
+      border-bottom-right-radius: .4em;
+    }
+    &.active {
+      color: #fff;
+      background: #444;
     }
   }
 }
