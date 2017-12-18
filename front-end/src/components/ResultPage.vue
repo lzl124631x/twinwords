@@ -90,10 +90,17 @@ export default {
     font-size: 1.1em;
     padding: .4em 0;
     border-bottom: .2em solid #555;
+    cursor: pointer;
     &:not(.active) {
       color: #555;
       border-color: transparent;
     }
+  }
+}
+
+body.has-hover {
+  .tabs > div:hover {
+    background: #444;
   }
 }
 

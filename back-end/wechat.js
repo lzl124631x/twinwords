@@ -92,8 +92,8 @@ exports.wechatAPI = (app) => {
     var openid = req.body.params.openid
     client.getUser(openid, (err, userinfo) => {
       if (err) {
-        console.log('userinfo', err, userinfo)
-        res.status(400).json(userinfo)
+        console.log('userinfo', err)
+        res.status(400).json(err)
         return
       }
       console.log('userinfo', userinfo)
