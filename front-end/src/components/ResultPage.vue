@@ -3,7 +3,9 @@
   <div class="content v-flex">
     <div class="card">
       <div class="section scoreboard">
-        <div class="header">Scoreboard</div>
+        <div class="header">
+          <div class="title">Scoreboard</div>
+        </div>
         <div class="body">
           <div>
             <span class="label gray-text">Correct</span>

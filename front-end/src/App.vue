@@ -183,9 +183,10 @@ body.has-hover {
   padding: .5em;
   .header {
     position: relative;
-    margin: .5em 0;
-    font-size: 1.1em;
+    margin-bottom: .5em;
+    height: 2.1em; // icon 1.5em, button-icon padding .4*1.5=.6em, in total 2.1em
     .title {
+      &:extend(.content-hv-center);
       position: absolute;
       left: 0;
       top: 50%;
@@ -193,6 +194,8 @@ body.has-hover {
       pointer-events: none;
       text-align: center;
       width: 100%;
+      height: 100%;
+      font-size: 1.1em;
     }
   }
   .body {
