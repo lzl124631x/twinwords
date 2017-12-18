@@ -3,7 +3,7 @@
   <div class="header">
     <button class="ranking-btn icon-button"
             v-on:click="openModal">
-      <TrophyIcon class="icon" />
+      <icon-trophy class="icon" />
     </button>
   </div>
   <div class="content">
@@ -11,12 +11,12 @@
          v-on:click="closeModal"
          v-if="modalOpen"></div>
     <div class="modal-container"
-           v-if="modalOpen">
+         v-if="modalOpen">
       <div class="modal card">
         <div class="header">
           <button class="icon-button"
                   v-on:click="closeModal">
-            <TimesIcon class="icon" />
+            <icon-times class="icon" />
           </button>
           <div class="title">Ranking</div>
         </div>
@@ -47,8 +47,8 @@
   <div class="footer">
     <div class="col">
       <router-link to="/quiz"
-               class="button">Go&nbsp;
-        <ChevronRightIcon class="icon" />
+                   class="button">Go&nbsp;
+        <icon-chevron-right class="icon" />
       </router-link>
     </div>
   </div>
@@ -57,17 +57,9 @@
 </template>
 
 <script>
-import TrophyIcon from '../../asset/trophy.svg';
-import TimesIcon from '../../asset/times.svg';
-import ChevronRightIcon from '../../asset/chevron-right.svg';
 
 export default {
   name: 'HomePage',
-  components: {
-    TrophyIcon,
-    TimesIcon,
-    ChevronRightIcon
-  },
   data() {
     return {
       globalState: store.state,

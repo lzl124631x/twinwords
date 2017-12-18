@@ -27,8 +27,8 @@
               <li v-for="entry in globalState.history"
                   class="flex-row history-row">
                 <span class="no-flex content-hv-center">
-                  <CheckIcon v-if="entry.correct" class="icon correct"/>
-                  <TimesIcon v-else class="icon"/>
+                  <icon-check v-if="entry.correct" class="icon correct"/>
+                  <icon-times v-else class="icon"/>
                 </span>
                 <span class="zh">{{entry.zh}}</span>
                 <span class="en">{{entry.en}}</span>
@@ -47,11 +47,11 @@
   <div class="footer">
     <div class="col">
       <a v-on:click="restart"
-         class="button dark primary"><RedoIcon class="icon"/>&nbsp;Restart</a>
+         class="button dark primary"><icon-redo class="icon"/>&nbsp;Restart</a>
     </div>
     <div class="col">
       <a v-on:click="backHome"
-         class="button dark"><HomeIcon class="icon"/>&nbsp;Home</a>
+         class="button dark"><icon-home class="icon"/>&nbsp;Home</a>
     </div>
   </div>
 </div>
@@ -59,19 +59,8 @@
 </template>
 
 <script>
-import CheckIcon from '../../asset/check.svg';
-import TimesIcon from '../../asset/times.svg';
-import RedoIcon from '../../asset/redo-alt.svg';
-import HomeIcon from '../../asset/home.svg';
-
 export default {
   name: 'ResultPage',
-  components: {
-    CheckIcon,
-    TimesIcon,
-    RedoIcon,
-    HomeIcon
-  },
   data() {
     return {
       globalState: store.state,

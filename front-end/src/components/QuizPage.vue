@@ -8,10 +8,10 @@
   <div class="header">
     <button class="icon-button"
             v-on:click="quit">
-      <TimesIcon class="icon" />
+      <icon-times class="icon" />
     </button>
     <div class="lives content-hv-center">
-      <HeartIcon class="icon icon-heart"
+      <icon-heart class="icon icon-heart"
                  v-for="life in maxLives"
                  v-bind:class="{ off: life > lives }" />
     </div>
@@ -45,15 +45,9 @@
 
 <script>
 import service from '../service';
-import TimesIcon from '../../asset/times.svg';
-import HeartIcon from '../../asset/heart.svg';
 
 export default {
   name: 'QuizPage',
-  components: {
-    TimesIcon,
-    HeartIcon
-  },
   data() {
     return {
       quizzes: null,

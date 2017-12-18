@@ -15,19 +15,15 @@
       </li>
     </ul>
   </div>
-  <button class="btn-refresh-rank secondary-button" v-on:click="refreshRanking"><RedoIcon class="icon"/>&nbsp;Refresh</button>
+  <button class="btn-refresh-rank secondary-button" v-on:click="refreshRanking"><icon-redo class="icon"/>&nbsp;Refresh</button>
 </div>
 
 </template>
 
 <script>
 import service from '../service';
-import RedoIcon from '../../asset/redo-alt.svg';
 export default {
   name: 'RankList',
-  components: {
-    RedoIcon
-  },
   data() {
     return {
       globalState: store.state
