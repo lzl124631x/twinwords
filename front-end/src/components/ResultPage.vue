@@ -85,10 +85,9 @@ export default {
 <style scoped="" lang="less">
 .tabs {
   display: flex;
-  margin-bottom: .5em;
+  margin-bottom: 1em;
   justify-content: center;
   >div {
-    font-size: .8em;
     padding: .4em .8em;
     cursor: pointer;
     border: .2em solid #444;
