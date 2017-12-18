@@ -106,4 +106,8 @@ exports.wechatAPI = (app) => {
       })
     })
   })
+
+  app.get('/wechat/echocode', (req, res) => {
+    res.send(req.query.code ? req.query.code : 'No code in query string.')
+  })
 }
