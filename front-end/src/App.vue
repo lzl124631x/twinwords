@@ -239,6 +239,7 @@ body.has-hover {
     bottom: 0;
     left: 0;
     margin: auto;
+    pointer-events: auto;
   }
 }
 
