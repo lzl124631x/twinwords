@@ -15,7 +15,11 @@ export default {
   mounted() {
     service.login()
       .then(auth => {
-        service.userinfo(auth.openid).then(userinfo => store.updateUserInfo(userinfo))
+        if (!auth.name) {
+          service.userinfo(auth.openid).then(userinfo => store.updateUserInfo(userinfo))
+        } else {
+          store.updateUserInfo(auth)
+        }
         service.bestRecord().then(best => store.updateBestRecord(best))
         service.ranking().then(ranking => store.updateRanking(ranking))
       })
