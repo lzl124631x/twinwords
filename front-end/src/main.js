@@ -27,7 +27,8 @@ window.store = {
     user: { name: undefined },
     record: { correctNum: undefined },
     ranking: [],
-    myRank: undefined
+    myRank: undefined,
+    lastBestRecord: { correctNum: undefined }
   },
   reset() {
     this.state.correctNum = 0
@@ -41,6 +42,7 @@ window.store = {
     this.state.user.name = userinfo.name
   },
   updateBestRecord (best) {
+    this.state.lastBestRecord.correctNum = this.state.record.correctNum
     this.state.record.correctNum = best.correctNum
   },
   updateRanking (ranking) {

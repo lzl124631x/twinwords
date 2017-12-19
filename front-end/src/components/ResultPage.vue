@@ -3,6 +3,7 @@
   <div class="content v-flex">
     <div class="card">
       <div class="section scoreboard">
+        <div class="new-record" v-if="globalState.correctNum > globalState.lastBestRecord.correctNum">New</div>
         <div class="header">
           <div class="title">Scoreboard</div>
         </div>
@@ -125,6 +126,7 @@ body.has-hover {
 
 .section.scoreboard {
   flex: none;
+  position: relative;
   .body {
     display: flex;
     padding: .5em 0;
@@ -134,6 +136,17 @@ body.has-hover {
         font-size: 1.2em;
       }
     }
+  }
+  .new-record {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #f05458;
+    border: .2em solid #f05458;
+    border-radius: .2em;
+    font-size: .8em;
+    padding: .2em .4em;
+    transform: rotate(30deg);
   }
 }
 
